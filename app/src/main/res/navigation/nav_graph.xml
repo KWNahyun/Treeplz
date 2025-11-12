@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="kr.co.example.treeplz.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_treeFragment"
+            app:destination="@id/treeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/treeFragment"
+        android:name="kr.co.example.treeplz.ui.tree.TreeFragment"
+        android:label="fragment_tree"
+        tools:layout="@layout/fragment_tree" >
+        <action
+            android:id="@+id/action_treeFragment_to_usageFragment"
+            app:destination="@id/usageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/usageFragment"
+        android:name="kr.co.example.treeplz.ui.usage.UsageFragment"
+        android:label="fragment_usage"
+        tools:layout="@layout/fragment_usage" />
+
+</navigation>
