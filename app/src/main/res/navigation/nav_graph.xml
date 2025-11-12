@@ -9,26 +9,37 @@
         android:id="@+id/loginFragment"
         android:name="kr.co.example.treeplz.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_treeFragment"
-            app:destination="@id/treeFragment" />
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/treeFragment"
-        android:name="kr.co.example.treeplz.ui.tree.TreeFragment"
-        android:label="fragment_tree"
-        tools:layout="@layout/fragment_tree" >
+        android:id="@+id/homeFragment"
+        android:name="kr.co.example.treeplz.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_treeFragment_to_usageFragment"
-            app:destination="@id/usageFragment" />
+            android:id="@+id/action_homeFragment_to_usageDetailsFragment"
+            app:destination="@id/usageDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_efficientPromptingFragment"
+            app:destination="@id/efficientPromptingFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/usageFragment"
-        android:name="kr.co.example.treeplz.ui.usage.UsageFragment"
-        android:label="fragment_usage"
-        tools:layout="@layout/fragment_usage" />
+        android:id="@+id/usageDetailsFragment"
+        android:name="kr.co.example.treeplz.ui.details.UsageDetailsFragment"
+        android:label="fragment_usage_details"
+        tools:layout="@layout/fragment_usage_details" />
+
+    <fragment
+        android:id="@+id/efficientPromptingFragment"
+        android:name="kr.co.example.treeplz.ui.prompting.EfficientPromptingFragment"
+        android:label="fragment_efficient_prompting"
+        tools:layout="@layout/fragment_efficient_prompting" />
 
 </navigation>
