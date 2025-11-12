@@ -27,7 +27,10 @@
             app:destination="@id/usageDetailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_efficientPromptingFragment"
-            app:destination="@id/efficientPromptingFragment" />
+            app:destination="@+id/efficientPromptingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_usageCalendarFragment"
+            app:destination="@id/usageCalendarFragment" />
     </fragment>
 
     <fragment
@@ -41,5 +44,11 @@
         android:name="kr.co.example.treeplz.ui.prompting.EfficientPromptingFragment"
         android:label="fragment_efficient_prompting"
         tools:layout="@layout/fragment_efficient_prompting" />
+
+    <fragment
+        android:id="@+id/usageCalendarFragment"
+        android:name="kr.co.example.treeplz.ui.calendar.UsageCalendarFragment"
+        android:label="fragment_usage_calendar"
+        tools:layout="@layout/fragment_usage_calendar" />
 
 </navigation>

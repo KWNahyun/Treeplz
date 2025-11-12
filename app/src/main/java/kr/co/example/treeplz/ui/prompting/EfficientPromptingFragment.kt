@@ -5,15 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kr.co.example.treeplz.data.model.PromptTip
 import kr.co.example.treeplz.databinding.FragmentEfficientPromptingBinding
+import kr.co.example.treeplz.ui.prompting.viewmodel.EfficientPromptingViewModel
 
 class EfficientPromptingFragment : Fragment() {
 
     private var _binding: FragmentEfficientPromptingBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: EfficientPromptingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,21 +34,17 @@ class EfficientPromptingFragment : Fragment() {
         }
 
         setupRecyclerView()
+        observeViewModel()
     }
 
     private fun setupRecyclerView() {
-        val tips = listOf(
-            PromptTip("Remove Greetings", "Skip Social Pleasantries"),
-            PromptTip("Be Specific", "Define Clear Requirements"),
-            PromptTip("Define Output Format", "Specify Response Structure"),
-            PromptTip("Set Constraints", "Use Word/Character Limits"),
-            PromptTip("Reusable Templates", "Create Template Prompts"),
-            PromptTip("Minimal Context", "Provide Only Necessary Context")
-        )
-
-        val adapter = PromptTipAdapter(tips)
-        binding.tipsRecyclerView.adapter = adapter
         binding.tipsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun observeViewModel() {
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+            binding.tipsRecyclerView.adapter = PromptTipAdapter(uiState.tips)
+        }
     }
 
     override fun onDestroyView() {

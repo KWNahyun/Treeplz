@@ -62,10 +62,11 @@
                     android:text="AI Requests" />
 
                 <TextView
+                    android:id="@+id/ai_requests_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                    tools:text="13" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,10 +96,11 @@
                     android:text="Time Spent" />
 
                 <TextView
+                    android:id="@+id/time_spent_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26minutes"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                    tools:text="26minutes" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -128,10 +130,11 @@
                     android:text="Tokens Used" />
 
                 <TextView
+                    android:id="@+id/tokens_used_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7.4k"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                    tools:text="7.4k" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -161,10 +164,11 @@
                     android:text="Carbon Footprint" />
 
                 <TextView
+                    android:id="@+id/carbon_footprint_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15grams CO2"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                    tools:text="15grams CO2" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -198,13 +202,11 @@
                 android:layout_height="wrap_content"
                 android:text="Weekly Trend"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
-            
-            <!-- NOTE: Replace this with a proper chart view like MPAndroidChart -->
-            <ImageView
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/dummy_chart"
-                android:scaleType="centerCrop"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
