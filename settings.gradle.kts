@@ -16,9 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Add this line to include the JitPack repository
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 rootProject.name = "Treeplz"
 include(":app")
- 
