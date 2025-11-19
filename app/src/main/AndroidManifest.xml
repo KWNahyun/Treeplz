@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kr.co.example.treeplz"
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
@@ -11,15 +12,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Treeplz">
+
+        <!-- Launcher (Main) Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- Efficient Prompting Activity (시연용 화면) -->
+        <activity
+            android:name=".EfficientPromptingActivity"
+            android:exported="false" />
+
+        <!-- (선택) LoginActivity가 별도로 있다면 여기도 등록 -->
+        <!--
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        -->
+
+    </application>
 </manifest>
