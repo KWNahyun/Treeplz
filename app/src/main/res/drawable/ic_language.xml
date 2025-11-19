@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 바깥 원 비슷한 다각형 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M4,6 L6,4 L18,4 L20,6 L20,18 L18,20 L6,20 L4,18 Z" />
+
+    <!-- 세로 중앙선 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M11,5 L13,5 L13,19 L11,19 Z" />
+
+    <!-- 가로선 위 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M6,9 L18,9 L18,11 L6,11 Z" />
+
+    <!-- 가로선 아래 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M6,13 L18,13 L18,15 L6,15 Z" />
+
+</vector>

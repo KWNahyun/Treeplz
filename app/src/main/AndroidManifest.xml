@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="kr.co.example.treeplz"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="kr.co.example.treeplz"> <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Treeplz">
 
-        <!-- Launcher (Main) Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,22 +22,20 @@
             </intent-filter>
         </activity>
 
-        <!-- 우리가 만든 신규 CalendarActivity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UsageDetailsActivity"
+            android:exported="false" />
+
         <activity
             android:name=".CalendarActivity"
             android:exported="false" />
 
-        <!-- Efficient Prompting Activity (시연용 화면) -->
         <activity
             android:name=".EfficientPromptingActivity"
             android:exported="false" />
-
-        <!-- (선택) LoginActivity가 별도로 있다면 여기도 등록 -->
-        <!--
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        -->
 
     </application>
 </manifest>

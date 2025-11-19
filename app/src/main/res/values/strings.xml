@@ -17,4 +17,49 @@
     <string name="efficient_prompting">Learn Efficient Prompting</string>
     <string name="detailed_usage">View Detailed Usage</string>
     <string name="tree_viz">Tree visualization</string>
+    <!-- 공통 / 헤더 -->
+    <string name="usage_back">Back</string>
+    <string name="usage_title">Usage Details</string>
+    <string name="usage_language_toggle">Change language</string>
+
+    <!-- 상단 4개 카드 -->
+    <string name="usage_requests">AI Requests</string>
+    <string name="main_today_usage">Today&#39;s Usage</string>
+
+    <string name="usage_time_spent">Time Spent</string>
+    <string name="usage_minutes">minutes</string>
+
+    <string name="usage_tokens">Tokens Used</string>
+    <string name="main_tokens">Tokens</string>
+
+    <string name="usage_carbon_footprint">Carbon Footprint</string>
+    <!-- 카드 아래 작은 텍스트 (Figma에선 CO₂로 표기) -->
+    <string name="main_carbon_footprint">CO₂</string>
+
+    <!-- Weekly Trend 카드 -->
+    <string name="usage_weekly_trend">Weekly Trend</string>
+    <!-- "Carbon Footprint (grams CO₂)" -->
+    <string name="usage_carbon_with_unit">Carbon Footprint (grams CO₂)</string>
+
+    <!-- Tips for Reduction 카드 -->
+    <string name="usage_tips">Tips for Reduction</string>
+
+    <!-- Tip 1~3: React에서 t('usage.tip1'...) 에 대응 -->
+    <string name="usage_tip1">Use more specific prompts</string>
+    <string name="usage_tip2">Batch similar requests</string>
+    <string name="usage_tip3">Avoid unnecessary conversations</string>
+
+    <!-- Environmental Impact 카드 제목 -->
+    <string name="usage_environmental_impact">Environmental Impact</string>
+
+    <!-- 아래부터는 지금 레이아웃에 하드코딩된 텍스트를 문자열로 빼고 싶을 때 사용하면 됨 -->
+
+    <!-- "Equivalent to 595g CO₂:" 처럼 g 값만 바꾸고 싶을 때 -->
+    <!-- 사용 예: getString(R.string.usage_env_equivalent, carbonInGrams) -->
+    <string name="usage_env_equivalent">Equivalent to %1$d CO₂:</string>
+
+    <!-- 세 줄 설명 라벨 -->
+    <string name="usage_env_car_label">meters by car</string>
+    <string name="usage_env_light_label">hours of LED light</string>
+    <string name="usage_env_phone_label">smartphone charges</string>
 </resources>
