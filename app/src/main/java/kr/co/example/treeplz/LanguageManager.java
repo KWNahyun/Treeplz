@@ -5,9 +5,17 @@ import java.util.Map;
 
 public class LanguageManager {
 
-    public enum Language { EN, KO }
+    public enum Language {
+        EN, KO
+    }
 
-    private static LanguageManager instance;
+    // 🔹 싱글톤 인스턴스
+    private static final LanguageManager INSTANCE = new LanguageManager();
+
+    public static LanguageManager getInstance() {
+        return INSTANCE;
+    }
+
     private Language language = Language.EN;
     private Map<String, String> en;
     private Map<String, String> ko;
@@ -16,14 +24,13 @@ public class LanguageManager {
         initTranslations();
     }
 
-    public static LanguageManager getInstance() {
-        if (instance == null) instance = new LanguageManager();
-        return instance;
+    public Language getLanguage() {
+        return language;
     }
 
-    public Language getLanguage() { return language; }
-
-    public void setLanguage(Language lang) { this.language = lang; }
+    public void setLanguage(Language lang) {
+        this.language = lang;
+    }
 
     public String t(String key) {
         String out = (language == Language.KO) ? ko.get(key) : en.get(key);
@@ -64,11 +71,16 @@ public class LanguageManager {
         en.put("main.wilting", "Wilting");
         en.put("main.critical", "Critical");
 
-        en.put("main.healthMessage.thriving", "Your tree is flourishing! Great job keeping AI usage sustainable.");
-        en.put("main.healthMessage.healthy", "Your tree looks healthy. Keep up the mindful AI usage!");
-        en.put("main.healthMessage.declining", "Your tree is showing signs of stress. Consider more efficient prompting.");
-        en.put("main.healthMessage.wilting", "Your tree needs attention. Time to reduce AI usage or improve efficiency.");
-        en.put("main.healthMessage.critical", "Your tree is in critical condition. Please focus on sustainable AI practices.");
+        en.put("main.healthMessage.thriving",
+                "Your tree is flourishing! Great job keeping AI usage sustainable.");
+        en.put("main.healthMessage.healthy",
+                "Your tree looks healthy. Keep up the mindful AI usage!");
+        en.put("main.healthMessage.declining",
+                "Your tree is showing signs of stress. Consider more efficient prompting.");
+        en.put("main.healthMessage.wilting",
+                "Your tree needs attention. Time to reduce AI usage or improve efficiency.");
+        en.put("main.healthMessage.critical",
+                "Your tree is in critical condition. Please focus on sustainable AI practices.");
 
         // Korean
         ko.put("main.todayUsage", "오늘의 사용량");
@@ -87,10 +99,15 @@ public class LanguageManager {
         ko.put("main.wilting", "시들음");
         ko.put("main.critical", "위험");
 
-        ko.put("main.healthMessage.thriving", "나무가 무성하게 자라고 있습니다! AI 사용을 지속 가능하게 유지하고 있어요.");
-        ko.put("main.healthMessage.healthy", "나무가 건강해 보입니다. 신중한 AI 사용을 계속 유지하세요!");
-        ko.put("main.healthMessage.declining", "나무가 스트레스를 받고 있습니다. 더 효율적인 프롬프팅을 고려해보세요.");
-        ko.put("main.healthMessage.wilting", "나무가 관심이 필요합니다. AI 사용량을 줄이거나 효율성을 개선할 시간입니다.");
-        ko.put("main.healthMessage.critical", "나무가 위험한 상태입니다. 지속 가능한 AI 사용에 집중해주세요.");
+        ko.put("main.healthMessage.thriving",
+                "나무가 무성하게 자라고 있습니다! AI 사용을 지속 가능하게 유지하고 있어요.");
+        ko.put("main.healthMessage.healthy",
+                "나무가 건강해 보입니다. 신중한 AI 사용을 계속 유지하세요!");
+        ko.put("main.healthMessage.declining",
+                "나무가 스트레스를 받고 있습니다. 더 효율적인 프롬프팅을 고려해보세요.");
+        ko.put("main.healthMessage.wilting",
+                "나무가 관심이 필요합니다. AI 사용량을 줄이거나 효율성을 개선할 시간입니다.");
+        ko.put("main.healthMessage.critical",
+                "나무가 위험한 상태입니다. 지속 가능한 AI 사용에 집중해주세요.");
     }
 }
