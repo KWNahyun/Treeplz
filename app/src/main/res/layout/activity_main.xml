@@ -33,7 +33,7 @@
                 android:id="@+id/tvBrand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Treeplz"
+                android:text="@string/app_name"
                 android:textSize="18sp"
                 android:textColor="@color/foreground"
                 android:textStyle="bold"/>
@@ -42,7 +42,7 @@
                 android:id="@+id/tvTodayUsageBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today's Usage"
+                android:text="@string/usage"
                 android:textSize="12sp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
@@ -53,7 +53,7 @@
                 android:textColor="@color/foreground"/>
         </LinearLayout>
 
-        <Switch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:layout_height="44dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_calendar"
-            android:contentDescription="Calendar"
+            android:contentDescription="@string/calender"
             app:tint="@color/muted" />
 
         <ImageButton
@@ -76,7 +76,7 @@
             android:layout_marginStart="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_settings"
-            android:contentDescription="Settings"
+            android:contentDescription="@string/settings"
             app:tint="@color/muted" />
     </LinearLayout>
 
@@ -107,7 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Tree Health"
+                android:text="@string/health_status"
                 android:textSize="14sp"
                 android:textColor="@color/muted"/>
 
@@ -159,7 +159,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:contentDescription="Tree visualization"
+            android:contentDescription="@string/tree_viz"
             android:src="@drawable/tree_state_1"/>
 
         <!-- Floating badges -->
@@ -209,6 +209,7 @@
 
         <!-- three-column stats -->
         <LinearLayout
+            android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -234,7 +235,7 @@
                     android:id="@+id/tvLabelRequests"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Requests"
+                    android:text="@string/requests"
                     android:textSize="12sp"
                     android:textColor="@color/muted"/>
             </LinearLayout>
@@ -258,7 +259,7 @@
                     android:id="@+id/tvLabelTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Time"
+                    android:text="@string/time"
                     android:textSize="12sp"
                     android:textColor="@color/muted"/>
             </LinearLayout>
@@ -282,7 +283,7 @@
                     android:id="@+id/tvLabelTokens"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tokens"
+                    android:text="@string/tokens"
                     android:textSize="12sp"
                     android:textColor="@color/muted"/>
             </LinearLayout>
@@ -293,7 +294,7 @@
             android:id="@+id/btnLearnPrompting"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:text="Learn Efficient Prompting"
+            android:text="@string/efficient_prompting"
             app:cornerRadius="12dp"
             android:layout_marginBottom="8dp"/>
 
@@ -301,7 +302,7 @@
             android:id="@+id/btnViewUsage"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:text="View Detailed Usage"
+            android:text="@string/detailed_usage"
             app:cornerRadius="12dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
     </LinearLayout>
