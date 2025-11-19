@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="background">#f8f9f5</color>
+    <color name="foreground">#2d3748</color>
+    <color name="muted">#6b7280</color>
+    <color name="primary">#5a7c65</color>
+    <color name="leaf_green">#6b8e5a</color>
+    <!-- semi-transparent variants -->
+    <color name="white_90">#E6FFFFFF</color>
+    <color name="white_60">#99FFFFFF</color>
+    <color name="border_trans">#335A7C65</color>
 </resources>

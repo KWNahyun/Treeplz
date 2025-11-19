@@ -1,19 +1,309 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/bg_gradient"
+    android:paddingTop="12dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvBrand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Treeplz"
+                android:textSize="18sp"
+                android:textColor="@color/foreground"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvTodayUsageBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today's Usage"
+                android:textSize="12sp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/badge_bg"
+                android:textColor="@color/foreground"/>
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switchLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginEnd="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btnCalendar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_calendar"
+            android:contentDescription="Calendar"
+            app:tint="@color/muted" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Settings"
+            app:tint="@color/muted" />
+    </LinearLayout>
+
+    <!-- Tree Health Card -->
+    <LinearLayout
+        android:id="@+id/healthCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/card_bg"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/tvTreeHealthLabel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Tree Health"
+                android:textSize="14sp"
+                android:textColor="@color/muted"/>
+
+            <TextView
+                android:id="@+id/tvTreeHealthPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textSize="14sp"
+                android:textColor="@color/foreground"/>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressHealth"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="8dp"
+            android:indeterminate="false"
+            android:progress="100"/>
+
+        <TextView
+            android:id="@+id/tvHealthMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your tree is flourishing!"
+            android:textSize="13sp"
+            android:textColor="@color/foreground"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <!-- Tree Visualization area (ImageView for tree states) -->
+    <FrameLayout
+        android:id="@+id/treeArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintTop_toBottomOf="@id/healthCard"
+        app:layout_constraintBottom_toTopOf="@+id/quickStats"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imgTreeState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:contentDescription="Tree visualization"
+            android:src="@drawable/tree_state_1"/>
+
+        <!-- Floating badges -->
+        <TextView
+            android:id="@+id/badgeRequests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/badge_round"
+            android:text="0 requests"
+            android:textSize="12sp"
+            android:textColor="@color/muted"
+            android:layout_gravity="top|end"/>
+
+        <TextView
+            android:id="@+id/badgeCarbon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/badge_round"
+            android:text="0g CO₂"
+            android:textSize="12sp"
+            android:textColor="@color/muted"
+            android:layout_gravity="bottom|start"/>
+    </FrameLayout>
+
+    <!-- Quick Stats and Actions area -->
+    <LinearLayout
+        android:id="@+id/quickStats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- three-column stats -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvStatRequests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="22sp"
+                    android:textColor="@color/foreground"/>
+
+                <TextView
+                    android:id="@+id/tvLabelRequests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Requests"
+                    android:textSize="12sp"
+                    android:textColor="@color/muted"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvStatTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0m"
+                    android:textSize="22sp"
+                    android:textColor="@color/foreground"/>
+
+                <TextView
+                    android:id="@+id/tvLabelTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:textSize="12sp"
+                    android:textColor="@color/muted"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvStatTokens"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0k"
+                    android:textSize="22sp"
+                    android:textColor="@color/foreground"/>
+
+                <TextView
+                    android:id="@+id/tvLabelTokens"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tokens"
+                    android:textSize="12sp"
+                    android:textColor="@color/muted"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Actions -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLearnPrompting"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Learn Efficient Prompting"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewUsage"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="View Detailed Usage"
+            app:cornerRadius="12dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
