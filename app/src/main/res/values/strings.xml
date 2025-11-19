@@ -6,4 +6,15 @@
     <string name="label_carbon">Carbon: %1$dg</string>
     <string name="label_health">Health: %1$d%%</string>
     <string name="no_data">No Data</string>
+    <string name="common_back">Back</string>
+    <string name='calender'>Calender</string>
+    <string name='health_status'>Tree Health</string>
+    <string name='settings'>Settings</string>
+    <string name='usage'>Today\'s Usage</string>
+    <string name='requests'>Requests</string>
+    <string name="time">Time</string>
+    <string name="tokens">Tokens</string>
+    <string name="efficient_prompting">Learn Efficient Prompting</string>
+    <string name="detailed_usage">View Detailed Usage</string>
+    <string name="tree_viz">Tree visualization</string>
 </resources>

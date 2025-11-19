@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kr.co.example.treeplz"
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
@@ -12,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Treeplz">
 
-        <!-- 앱 시작 화면 -->
+        <!-- Launcher (Main) Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -26,6 +27,18 @@
         <activity
             android:name=".CalendarActivity"
             android:exported="false" />
-    </application>
 
+        <!-- Efficient Prompting Activity (시연용 화면) -->
+        <activity
+            android:name=".EfficientPromptingActivity"
+            android:exported="false" />
+
+        <!-- (선택) LoginActivity가 별도로 있다면 여기도 등록 -->
+        <!--
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        -->
+
+    </application>
 </manifest>
