@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Treeplz</string>
+    <string name="label_requests">Requests: %1$d</string>
+    <string name="label_tokens">Tokens: %1$d</string>
+    <string name="label_time">Time: %1$d min</string>
+    <string name="label_carbon">Carbon: %1$dg</string>
+    <string name="label_health">Health: %1$d%%</string>
+    <string name="no_data">No Data</string>
 </resources>

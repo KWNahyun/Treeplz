@@ -1,5 +1,6 @@
 package kr.co.example.treeplz;
 
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -79,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnCalendar.setOnClickListener(v -> {
-            Toast.makeText(this, "Calendar (demo)", Toast.LENGTH_SHORT).show();
-            // onShowCalendar()
+            Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+            startActivity(intent);
         });
+
 
         btnSettings.setOnClickListener(v -> {
             Toast.makeText(this, "Settings (demo)", Toast.LENGTH_SHORT).show();
