@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 눌렀을 때(pressed): 흰색이 살짝 진하게 보이는 상태 -->
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <!-- 살짝 더 진한 흰색/연두빛 -->
+            <solid android:color="#E5ECE0" />
+        </shape>
+    </item>
+
+    <!-- 기본 상태: 거의 투명한 흰색 원 -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF" />
+            <size
+                android:width="40dp"
+                android:height="40dp" />
+        </shape>
+    </item>
+
+</selector>

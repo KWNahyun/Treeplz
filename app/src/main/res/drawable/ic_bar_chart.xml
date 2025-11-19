@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 왼쪽 짧은 막대 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M5,13 L8,13 L8,19 L5,19 Z" />
+
+    <!-- 가운데 중간 막대 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M10,10 L13,10 L13,19 L10,19 Z" />
+
+    <!-- 오른쪽 긴 막대 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M15,7 L18,7 L18,19 L15,19 Z" />
+
+</vector>
