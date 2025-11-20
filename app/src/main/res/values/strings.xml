@@ -24,7 +24,7 @@
 
     <!-- 상단 4개 카드 -->
     <string name="usage_requests">AI Requests</string>
-    <string name="main_today_usage">Today&#39;s Usage</string>
+    <string name="main_today_usage">Today Usage</string>
 
     <string name="usage_time_spent">Time Spent</string>
     <string name="usage_minutes">minutes</string>

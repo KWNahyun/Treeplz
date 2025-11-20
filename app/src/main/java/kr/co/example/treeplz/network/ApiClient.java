@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "https://your.api.server/"; // 여기에 네 서버 주소
+    private static final String BASE_URL = "http://10.0.2.2:8000/"; // 여기에 네 서버 주소
     private static ApiClient instance;
     private Retrofit retrofit;
 
