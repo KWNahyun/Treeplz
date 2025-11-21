@@ -1,75 +1,105 @@
 package kr.co.example.treeplz;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity {
 
     private TextView monthTitle;
     private GridLayout calendarGrid;
+    private ImageButton btnPrevMonth, btnNextMonth;
 
-    private View detailPanel;
+    // Detail Panel Components
+    private CardView detailPanel;
+    private TextView detailDateTitle;
     private TextView detailRequests;
     private TextView detailTokens;
-    private TextView detailTime;
     private TextView detailCarbon;
     private TextView detailHealth;
 
     private Calendar currentMonth;
     private List<DayData> calendarData;
-    private Integer selectedDate = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calendar);
+        setContentView(R.layout.calendar); // XML 파일명 확인
 
-        // View binding
+        initViews();
+
+        currentMonth = Calendar.getInstance();
+        refreshCalendar();
+    }
+
+    private void initViews() {
         monthTitle = findViewById(R.id.monthTitle);
         calendarGrid = findViewById(R.id.calendarGrid);
+        btnPrevMonth = findViewById(R.id.btnPrevMonth);
+        btnNextMonth = findViewById(R.id.btnNextMonth);
 
         detailPanel = findViewById(R.id.detailPanel);
+        detailDateTitle = findViewById(R.id.detailDateTitle);
         detailRequests = findViewById(R.id.detailRequests);
         detailTokens = findViewById(R.id.detailTokens);
-        detailTime = findViewById(R.id.detailTime);
         detailCarbon = findViewById(R.id.detailCarbon);
         detailHealth = findViewById(R.id.detailHealth);
 
-        // 날짜 객체 생성
-        currentMonth = Calendar.getInstance();
+        // 월 이동 버튼 리스너
+        btnPrevMonth.setOnClickListener(v -> {
+            currentMonth.add(Calendar.MONTH, -1);
+            refreshCalendar();
+        });
 
-        generateMockData();
-        buildCalendar();
+        btnNextMonth.setOnClickListener(v -> {
+            currentMonth.add(Calendar.MONTH, 1);
+            refreshCalendar();
+        });
     }
 
-    /** 캘린더 날짜 데이터 생성 (React 코드와 동일 로직) */
+    private void refreshCalendar() {
+        // 1. 제목 설정 (Ex: November 2025)
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
+        monthTitle.setText(sdf.format(currentMonth.getTime()));
+
+        // 2. 데이터 생성 (월이 바뀔 때마다 새로 생성한다고 가정)
+        generateMockData();
+
+        // 3. 그리드 그리기
+        buildCalendarGrid();
+
+        // 4. 패널 숨기기
+        detailPanel.setVisibility(View.INVISIBLE);
+    }
+
     private void generateMockData() {
         calendarData = new ArrayList<>();
-
         Calendar temp = (Calendar) currentMonth.clone();
         temp.set(Calendar.DAY_OF_MONTH, 1);
-
         int daysInMonth = temp.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         for (int i = 1; i <= daysInMonth; i++) {
-            boolean hasData = Math.random() > 0.3; // 70% 확률로 데이터 존재
-
+            boolean hasData = Math.random() > 0.3;
             if (hasData) {
-                int requests = (int) (Math.random() * 25) + 1;
-                int tokens = (int) (Math.random() * 8000) + 1000;
+                int requests = (int) (Math.random() * 50) + 5;
+                int tokens = (int) (Math.random() * 10000) + 1000;
                 double timeSpent = Math.random() * 60 + 5;
-                int carbon = (int) (Math.random() * 40) + 5;
-                int health = Math.max(0, 100 - (requests * 2 + tokens / 1000));
+                int carbon = (int) (tokens * 0.02); // 임의 계산
+                int health = Math.max(0, 100 - (requests + (int)(tokens/500.0)));
 
                 calendarData.add(new DayData(i, true, requests, tokens, timeSpent, carbon, health));
             } else {
@@ -78,89 +108,91 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
 
-    /** UI에 캘린더 표시 */
-    private void buildCalendar() {
-        monthTitle.setText(android.text.format.DateFormat.format("MMMM yyyy", currentMonth));
-
+    private void buildCalendarGrid() {
         calendarGrid.removeAllViews();
-        calendarGrid.setColumnCount(7);
 
-        Calendar temp = Calendar.getInstance();
-        temp.set(currentMonth.get(Calendar.YEAR), currentMonth.get(Calendar.MONTH), 1);
+        Calendar temp = (Calendar) currentMonth.clone();
+        temp.set(Calendar.DAY_OF_MONTH, 1);
 
-        int offset = temp.get(Calendar.DAY_OF_WEEK) - 1;
+        // 1일의 요일 (1:Sun ~ 7:Sat)
+        int dayOfWeek = temp.get(Calendar.DAY_OF_WEEK);
+        int emptyCells = dayOfWeek - 1;
 
-        // 빈칸
-        for (int i = 0; i < offset; i++) {
+        // 빈 칸 채우기
+        for (int i = 0; i < emptyCells; i++) {
             TextView empty = new TextView(this);
             calendarGrid.addView(empty, getGridParams());
         }
 
-        // 날짜 칸 생성
+        // 날짜 칸 채우기
         for (DayData day : calendarData) {
-            TextView tv = new TextView(this);
-            tv.setText(String.valueOf(day.date));
-            tv.setTextSize(16);
-            tv.setPadding(10, 10, 10, 10);
-            tv.setGravity(Gravity.CENTER);
+            TextView dayView = new TextView(this);
+            dayView.setText(String.valueOf(day.date));
+            dayView.setTextSize(14);
+            dayView.setGravity(Gravity.CENTER);
+            dayView.setTextColor(Color.DKGRAY);
 
-            // 클릭 시 상세 패널 표시
-            tv.setOnClickListener(v -> {
-                selectedDate = day.date;
-                showDayDetail(day);
-            });
+            // 둥근 배경 만들기 (프로그래매틱 Drawable)
+            GradientDrawable bg = new GradientDrawable();
+            bg.setShape(GradientDrawable.OVAL); // 혹은 RECTANGLE + setCornerRadius
 
-            // 데이터가 있으면 health 색으로 칠함
             if (day.hasData) {
-                tv.setBackgroundColor(getHealthColor(day.healthLevel));
+                bg.setColor(getHealthColor(day.healthLevel));
+                // 텍스트 색상을 흰색으로 해야 잘 보임
+                dayView.setTextColor(Color.WHITE);
+            } else {
+                bg.setColor(Color.TRANSPARENT); // 데이터 없으면 투명
             }
 
-            calendarGrid.addView(tv, getGridParams());
+            // 사이즈 조정 (작은 원형)
+            bg.setSize(100, 100);
+            dayView.setBackground(bg);
+
+            // 클릭 이벤트
+            dayView.setOnClickListener(v -> showDayDetail(day));
+
+            calendarGrid.addView(dayView, getGridParams());
         }
     }
 
     private GridLayout.LayoutParams getGridParams() {
+        // 각 셀이 1:1 비율로 균등하게 퍼지도록 설정
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
-        params.height = GridLayout.LayoutParams.WRAP_CONTENT;
+        params.height = 120; // 높이 고정 (적절히 조절)
         params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-        params.setMargins(5, 5, 5, 5);
+        params.setMargins(8, 8, 8, 8);
         return params;
     }
 
-    /** 날짜 클릭 시 상세 정보 표시 */
     private void showDayDetail(DayData day) {
+        if (!day.hasData) return;
+
         detailPanel.setVisibility(View.VISIBLE);
 
-        if (!day.hasData) {
-            detailRequests.setText("No Data");
-            detailTokens.setText("-");
-            detailTime.setText("-");
-            detailCarbon.setText("-");
-            detailHealth.setText("-");
-            return;
-        }
+        // 날짜 표시
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM", Locale.ENGLISH);
+        String monthName = sdf.format(currentMonth.getTime());
+        detailDateTitle.setText(monthName + " " + day.date);
 
-        detailRequests.setText(
-                getString(R.string.label_requests, day.requests)
-        );
-        detailTokens.setText(
-                getString(R.string.label_tokens, day.tokens)
-        );
+        detailRequests.setText(String.valueOf(day.requests));
+        detailTokens.setText(String.format("%.1fk", day.tokens / 1000.0));
+        detailCarbon.setText(day.carbonFootprint + "g");
 
+        detailHealth.setText("Tree Health: " + day.healthLevel + "%");
         detailHealth.setTextColor(getHealthColor(day.healthLevel));
     }
 
-    /** health 색상 계산 */
     private int getHealthColor(int h) {
-        if (h >= 80) return Color.parseColor("#5a7c65");
-        if (h >= 60) return Color.parseColor("#8b9677");
-        if (h >= 40) return Color.parseColor("#c4b878");
-        if (h >= 20) return Color.parseColor("#d4c892");
-        return Color.parseColor("#8b7355");
+        // colors.xml에 있는 색상 코드 직접 사용 (Color.parseColor)
+        if (h >= 80) return Color.parseColor("#2E7D32"); // seed_green
+        if (h >= 60) return Color.parseColor("#4CAF50"); // seed_green_light
+        if (h >= 40) return Color.parseColor("#81C784"); // accent_leaf
+        if (h >= 20) return Color.parseColor("#FFB74D"); // 약간 경고색 (Orange)
+        return Color.parseColor("#E57373"); // 위험 (Red)
     }
 
-    /** 날짜 데이터 모델 */
+    // 데이터 모델 (기존과 동일)
     public static class DayData {
         int date;
         boolean hasData;

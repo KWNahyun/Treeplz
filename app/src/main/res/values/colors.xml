@@ -8,5 +8,6 @@
     <!-- semi-transparent variants -->
     <color name="white_90">#E6FFFFFF</color>
     <color name="white_60">#99FFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="border_trans">#335A7C65</color>
 </resources>

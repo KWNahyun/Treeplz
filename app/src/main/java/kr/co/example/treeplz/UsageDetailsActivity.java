@@ -2,6 +2,7 @@ package kr.co.example.treeplz;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build; // 버전 체크를 위해 추가
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+// Serializable 경고가 뜬다면 무시해도 되는 어노테이션 (선택사항)
+@SuppressWarnings("deprecation")
 public class UsageDetailsActivity extends AppCompatActivity {
 
     // 다른 액티비티에서 사용량 데이터를 넘길 때 쓸 키
@@ -55,6 +58,9 @@ public class UsageDetailsActivity extends AppCompatActivity {
     // 샘플 데이터 구조 (React 의 aiUsage 비슷하게)
     // 다른 액티비티에서도 만들 수 있게 public + Serializable
     public static class AiUsage implements java.io.Serializable {
+        // 직렬화 버전 UID (경고 방지용 권장)
+        private static final long serialVersionUID = 1L;
+
         public int requests;
         public int tokens;
         public double timeSpentMinutes;
@@ -86,10 +92,19 @@ public class UsageDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_usage);  // XML 이름 확인!
+        setContentView(R.layout.activity_detailed_usage);
 
-        // 1. 다른 액티비티가 넘겨준 데이터가 있는지 확인
-        aiUsage = (AiUsage) getIntent().getSerializableExtra(EXTRA_AI_USAGE);
+        // 1. Intent 데이터 수신 (버전 분기 처리로 Deprecated 해결)
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // 안드로이드 13(API 33) 이상: 타입을 명시해야 함
+                aiUsage = intent.getSerializableExtra(EXTRA_AI_USAGE, AiUsage.class);
+            } else {
+                // 구버전 안드로이드: 기존 방식 유지
+                aiUsage = (AiUsage) intent.getSerializableExtra(EXTRA_AI_USAGE);
+            }
+        }
 
         // 2. 없으면 더미 데이터 사용 / 있으면 그 값으로 주간 데이터 구성
         if (aiUsage == null) {
@@ -112,7 +127,6 @@ public class UsageDetailsActivity extends AppCompatActivity {
 
     // 기본 더미 데이터 (테스트용)
     private void initMockData() {
-        // React 코드에서 들어오던 값이랑 비슷하게
         aiUsage = new AiUsage(
                 320,    // requests
                 162600, // tokens
@@ -131,7 +145,7 @@ public class UsageDetailsActivity extends AppCompatActivity {
                 new DayUsage("Thu", 6, 8),
                 new DayUsage("Fri", 20, 25),
                 new DayUsage("Sat", 4, 5),
-                // 일요일은 항상 현재 aiUsage 사용량
+                // 일요일은 항상 현재 aiUsage 사용량 (예시)
                 new DayUsage("Sun", aiUsage.requests, aiUsage.carbonFootprintGrams)
         };
     }
@@ -145,17 +159,14 @@ public class UsageDetailsActivity extends AppCompatActivity {
         // Summary cards
         tvValueRequests = findViewById(R.id.tvValueRequests);
         tvSubRequests = findViewById(R.id.tvSubRequests);
-
         tvValueTimeSpent = findViewById(R.id.tvValueTimeSpent);
         tvSubTimeSpent = findViewById(R.id.tvSubTimeSpent);
-
         tvValueTokens = findViewById(R.id.tvValueTokens);
         tvSubTokens = findViewById(R.id.tvSubTokens);
-
         tvValueCarbon = findViewById(R.id.tvValueCarbon);
         tvSubCarbon = findViewById(R.id.tvSubCarbon);
 
-        // Weekly trend (지금은 Mon만 XML에 있으니까 그것만 바인딩)
+        // Weekly trend
         barMonRequests = findViewById(R.id.barMonRequests);
         barMonCarbon = findViewById(R.id.barMonCarbon);
         tvMonRequestsValue = findViewById(R.id.tvMonRequestsValue);
@@ -171,9 +182,8 @@ public class UsageDetailsActivity extends AppCompatActivity {
     private void bindSummaryCards() {
         // Requests
         tvValueRequests.setText(String.valueOf(aiUsage.requests));
-        // Today’s Usage 텍스트는 strings.xml 에 있으니 그대로 사용
 
-        // Time spent (744minutes) 형식
+        // Time spent
         String timeValue = (int) Math.round(aiUsage.timeSpentMinutes) + "min";
         tvValueTimeSpent.setText(timeValue);
 
@@ -182,13 +192,15 @@ public class UsageDetailsActivity extends AppCompatActivity {
         String tokensText = String.format("%.1fk", tokensK);
         tvValueTokens.setText(tokensText);
 
-        // Carbon (595g)
+        // Carbon
         String carbonText = aiUsage.carbonFootprintGrams + "g";
         tvValueCarbon.setText(carbonText);
     }
 
     private void bindWeeklyTrend() {
-        // Mon 데이터만 일단 사용
+        // Mon 데이터만 일단 사용 (XML에 월요일만 있어서)
+        if (weeklyData == null || weeklyData.length == 0) return;
+
         DayUsage monday = weeklyData[0];
 
         tvMonRequestsValue.setText(String.valueOf(monday.requests));
@@ -211,28 +223,23 @@ public class UsageDetailsActivity extends AppCompatActivity {
                     public void onGlobalLayout() {
                         barMonRequests.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
-                        // 부모 LinearLayout (트랙)을 기준으로 폭 계산
-                        LinearLayout trackReq =
-                                (LinearLayout) barMonRequests.getParent();
-                        int trackWidth = trackReq.getWidth();
+                        View parentReq = (View) barMonRequests.getParent();
+                        int trackWidth = parentReq.getWidth();
 
                         float ratioReq = (float) monday.requests / finalMaxRequests;
                         int barWidthReq = (int) (trackWidth * ratioReq);
 
-                        LinearLayout.LayoutParams lpReq =
-                                (LinearLayout.LayoutParams) barMonRequests.getLayoutParams();
+                        LinearLayout.LayoutParams lpReq = (LinearLayout.LayoutParams) barMonRequests.getLayoutParams();
                         lpReq.width = barWidthReq;
                         barMonRequests.setLayoutParams(lpReq);
 
-                        LinearLayout trackCarbon =
-                                (LinearLayout) barMonCarbon.getParent();
-                        int trackWidthCarbon = trackCarbon.getWidth();
+                        View parentCarbon = (View) barMonCarbon.getParent();
+                        int trackWidthCarbon = parentCarbon.getWidth();
 
                         float ratioCarbon = (float) monday.carbon / finalMaxCarbon;
                         int barWidthCarbon = (int) (trackWidthCarbon * ratioCarbon);
 
-                        LinearLayout.LayoutParams lpCarbon =
-                                (LinearLayout.LayoutParams) barMonCarbon.getLayoutParams();
+                        LinearLayout.LayoutParams lpCarbon = (LinearLayout.LayoutParams) barMonCarbon.getLayoutParams();
                         lpCarbon.width = barWidthCarbon;
                         barMonCarbon.setLayoutParams(lpCarbon);
                     }
@@ -240,15 +247,16 @@ public class UsageDetailsActivity extends AppCompatActivity {
     }
 
     private void bindEnvironmentalImpact() {
-        // Equivalent to 595g CO₂:
-        String desc = getString(R.string.usage_env_equivalent,
-                aiUsage.carbonFootprintGrams);
+        // Equivalent to 595g CO₂
+        // strings.xml에 usage_env_equivalent가 정의되어 있어야 함
+        // 없다면 임시로 아래처럼 하드코딩 가능:
+        // String desc = "Equivalent to " + aiUsage.carbonFootprintGrams + "g CO₂:";
+        String desc = getString(R.string.usage_env_equivalent, aiUsage.carbonFootprintGrams);
         tvEnvDescription.setText(desc);
 
-        // React 코드랑 비슷한 계산
-        double carMeters = aiUsage.carbonFootprintGrams * 0.006; // meters by car
-        double ledHours = aiUsage.carbonFootprintGrams * 0.1;    // hours of LED light
-        double phoneCharges = aiUsage.carbonFootprintGrams * 0.2;// smartphone charges
+        double carMeters = aiUsage.carbonFootprintGrams * 0.006;
+        double ledHours = aiUsage.carbonFootprintGrams * 0.1;
+        double phoneCharges = aiUsage.carbonFootprintGrams * 0.2;
 
         tvEnvCarValue.setText(String.format("%.1fm", carMeters));
         tvEnvLightValue.setText(String.format("%.1fh", ledHours));
@@ -258,9 +266,8 @@ public class UsageDetailsActivity extends AppCompatActivity {
     private void setupListeners() {
         btnBack.setOnClickListener(v -> finish());
 
-        // 나중에 언어 토글 클릭 처리하고 싶으면 여기서:
         ivLanguageToggle.setOnClickListener(v -> {
-            // TODO: 언어 변경 로직
+            // 언어 토글 로직 구현 필요시 여기에 작성
         });
     }
 }

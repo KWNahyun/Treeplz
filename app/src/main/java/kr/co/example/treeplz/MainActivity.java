@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 1. 저장소 초기화
-        preferenceHelper = new PreferenceHelper(this);
+        preferenceHelper = PreferenceHelper.getInstance(this);
 
         // 뷰 초기화
         initViews();
@@ -299,19 +299,27 @@ public class MainActivity extends AppCompatActivity {
         return LanguageManager.getInstance().t("main.healthMessage.critical");
     }
 
-    // 나무 체력에 따라 이미지 변경 (drawables가 있다고 가정)
     private void updateTreeImage(int treeHealth) {
-        if (treeHealth >= 80) {
+        imgTreeState.setAlpha(1.0f);
+
+        if (treeHealth >= 85) {
+            // 85~100%: 아주 건강 (싱싱한 초록색)
             imgTreeState.setImageResource(R.drawable.tree_state_1);
-        } else if (treeHealth >= 50) {
-            // imgTreeState.setImageResource(R.drawable.tree_state_2); // 이미지가 있다면 주석 해제
-            imgTreeState.setAlpha(0.9f); // 임시 효과
+        } else if (treeHealth >= 70) {
+            // 70~84%: 건강함
+            imgTreeState.setImageResource(R.drawable.tree_state_2);
+        } else if (treeHealth >= 55) {
+            // 55~69%: 보통
+            imgTreeState.setImageResource(R.drawable.tree_state_3);
+        } else if (treeHealth >= 40) {
+            // 40~54%: 약간 시들기 시작
+            imgTreeState.setImageResource(R.drawable.tree_state_4);
         } else if (treeHealth >= 20) {
-            // imgTreeState.setImageResource(R.drawable.tree_state_3);
-            imgTreeState.setAlpha(0.7f);
+            // 20~39%: 많이 시듦 (잎이 갈색으로 변함)
+            imgTreeState.setImageResource(R.drawable.tree_state_5);
         } else {
-            // imgTreeState.setImageResource(R.drawable.tree_state_4);
-            imgTreeState.setAlpha(0.5f); // 시들한 느낌
+            // 0~19%: 위험 (거의 앙상함)
+            imgTreeState.setImageResource(R.drawable.tree_state_6);
         }
     }
 
