@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -34,29 +34,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
-                android:textSize="18sp"
                 android:textColor="@color/foreground"
-                android:textStyle="bold"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvTodayUsageBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usage"
-                android:textSize="12sp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/badge_bg"
-                android:textColor="@color/foreground"/>
+                android:paddingLeft="8dp"
+                android:paddingTop="2dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="2dp"
+                android:text="@string/usage"
+                android:textColor="@color/foreground"
+                android:textSize="12sp" />
         </LinearLayout>
 
-        <com.google.android.material.materialswitch.MaterialSwitch
+        <ToggleButton
             android:id="@+id/switchLanguage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="14dp"
+            android:layout_height="11dp"
+            android:background="@drawable/selector_lang_thumb"
+            android:checked="false"
+            android:textOff=""
+            android:textOn="" />
 
         <ImageButton
             android:id="@+id/btnCalendar"

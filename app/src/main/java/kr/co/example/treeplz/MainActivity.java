@@ -10,13 +10,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.materialswitch.MaterialSwitch;
 
 import kr.co.example.treeplz.model.AiUsage;
 import kr.co.example.treeplz.network.ApiClient;
@@ -44,15 +44,18 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressHealth;
     private TextView badgeRequests, badgeCarbon;
     private TextView tvStatRequests, tvStatTime, tvStatTokens;
-    private MaterialSwitch switchLanguage;
+//    private MaterialSwitch switchLanguage;
     private MaterialButton btnLearnPrompting, btnViewUsage;
     private ImageButton btnCalendar, btnSettings;
     private ImageView imgTreeState; // 나무 이미지 뷰 추가
+    private ToggleButton switchLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        switchLanguage = findViewById(R.id.switchLanguage);
 
         // 1. 저장소 초기화
         preferenceHelper = PreferenceHelper.getInstance(this);
