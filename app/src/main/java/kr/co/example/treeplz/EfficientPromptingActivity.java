@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +20,7 @@ public class EfficientPromptingActivity extends AppCompatActivity {
 
     private LinearLayout tipContainer;
     private TextView tvTotalTokens, tvTitle, tvSubtitle, tvBannerTitle, tvBannerSubtitle, tvCtaTitle, tvCtaDesc;
-    private Switch switchLanguage;
+    private ToggleButton switchLanguage;
 
     static class PromptingTip {
         String id;
@@ -43,7 +43,6 @@ public class EfficientPromptingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_efficient_prompting);
 
-        // views
         tipContainer = findViewById(R.id.tipContainer);
         tvTotalTokens = findViewById(R.id.tvTotalTokens);
         tvTitle = findViewById(R.id.tvTitle);
@@ -54,11 +53,9 @@ public class EfficientPromptingActivity extends AppCompatActivity {
         tvCtaDesc = findViewById(R.id.tvCtaDesc);
         switchLanguage = findViewById(R.id.switchLanguage);
 
-        // back button
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        // language switch
         switchLanguage.setChecked(LanguageManager.getInstance().getLanguage() == LanguageManager.Language.KO);
         switchLanguage.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) LanguageManager.getInstance().setLanguage(LanguageManager.Language.KO);
@@ -72,7 +69,6 @@ public class EfficientPromptingActivity extends AppCompatActivity {
     }
 
     private void initTips() {
-        // copy of TSX data
         tips.clear();
         tips.add(new PromptingTip("greetings","prompting.removeGreetings.title","prompting.removeGreetings.subtitle","prompting.removeGreetings.description","prompting.removeGreetings.bad","prompting.removeGreetings.good","~15","🎯"));
         tips.add(new PromptingTip("specific","prompting.beSpecific.title","prompting.beSpecific.subtitle","prompting.beSpecific.description","prompting.beSpecific.bad","prompting.beSpecific.good","~30","📝"));
@@ -104,14 +100,12 @@ public class EfficientPromptingActivity extends AppCompatActivity {
             tvIcon.setText(tip.icon);
             tvTokensBadge.setText(tip.tokensSaved);
 
-            // set texts using LanguageManager
             tvCategory.setText(LanguageManager.getInstance().t(tip.categoryKey));
             tvSubtitle.setText(LanguageManager.getInstance().t(tip.titleKey));
             tvDescription.setText(LanguageManager.getInstance().t(tip.descriptionKey));
             tvBadExample.setText(LanguageManager.getInstance().t(tip.badExampleKey));
             tvGoodExample.setText(LanguageManager.getInstance().t(tip.goodExampleKey));
 
-            // expand/collapse
             v.setOnClickListener(view -> {
                 if (layoutDetail.getVisibility() == View.VISIBLE) {
                     layoutDetail.setVisibility(View.GONE);
@@ -127,13 +121,11 @@ public class EfficientPromptingActivity extends AppCompatActivity {
     }
 
     private void refreshTexts() {
-        // header & banner & CTA
         tvTitle.setText(LanguageManager.getInstance().t("prompting.title"));
         tvSubtitle.setText(LanguageManager.getInstance().t("prompting.subtitle"));
         tvBannerTitle.setText(LanguageManager.getInstance().t("prompting.potentialSavings"));
         tvBannerSubtitle.setText(LanguageManager.getInstance().t("prompting.usingTechniques"));
 
-        // compute total tokens saved
         int total = 0;
         Pattern p = Pattern.compile("\\d+");
         for (PromptingTip tip : tips) {
@@ -144,12 +136,9 @@ public class EfficientPromptingActivity extends AppCompatActivity {
         }
         tvTotalTokens.setText("~" + total);
 
-        // CTA texts
         tvCtaTitle.setText(LanguageManager.getInstance().t("prompting.makeEveryTokenCount"));
         tvCtaDesc.setText(LanguageManager.getInstance().t("prompting.description"));
 
-        // update each inflated tip card texts
-        // simple approach: re-render all tips
         renderTips();
     }
 }

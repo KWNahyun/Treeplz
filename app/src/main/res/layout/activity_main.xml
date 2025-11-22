@@ -299,8 +299,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:text="@string/efficient_prompting"
-            app:cornerRadius="12dp"
-            android:layout_marginBottom="8dp"/>
+            app:cornerRadius="12dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViewUsage"

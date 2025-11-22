@@ -24,36 +24,32 @@
             android:paddingTop="40dp"
             android:paddingBottom="16dp">
 
-            <!-- Back Button -->
             <ImageButton
                 android:id="@+id/btnBack"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/button"
                 android:padding="8dp"
-                android:contentDescription="@string/usage_back"
                 android:src="@drawable/ic_back"
                 app:tint="#6B7280"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
-            <!-- Title -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usage_title"
                 android:textColor="#2D3748"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnBack"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/languageToggleContainer"
-                app:layout_constraintHorizontal_bias="0.5" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintVertical_bias="0.5" />
 
-            <!-- Language Toggle placeholder -->
             <FrameLayout
                 android:id="@+id/languageToggleContainer"
                 android:layout_width="wrap_content"
@@ -62,39 +58,34 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <!-- 나중에 커스텀 토글 / 버튼 붙이기 -->
-                <ImageView
+                <ToggleButton
                     android:id="@+id/ivLanguageToggle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_language"
-                    android:contentDescription="@string/usage_language_toggle"
-                    app:tint="#6B7280" />
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/selector_lang_thumb"
+                    android:checked="false"
+                    android:textOff=""
+                    android:textOn="" />
             </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Summary Cards (2 x 2 Grid) -->
+        <!-- Summary Cards -->
         <GridLayout
             android:id="@+id/gridSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2"
-            android:rowCount="2"
-            android:columnOrderPreserved="false"
-            android:alignmentMode="alignMargins"
-            android:useDefaultMargins="true">
+            android:rowCount="2">
 
-            <!-- Requests Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRequests"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,23 +96,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:src="@drawable/ic_bolt"
-                            app:tint="#6B7280" />
-
+                            android:src="@drawable/ic_bolt" />
                         <TextView
                             android:id="@+id/tvLabelRequests"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_requests"
-                            android:textSize="12sp"
-                            android:textColor="#6B7280" />
+                            android:textColor="#6B7280"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <TextView
@@ -129,58 +116,48 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="0"
-                        android:textSize="22sp"
-                        android:textColor="#2D3748" />
-
+                        android:textColor="#2D3748"
+                        android:textSize="22sp" />
                     <TextView
                         android:id="@+id/tvSubRequests"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@string/main_today_usage"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
+                        android:textColor="#6B7280"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Time Spent Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTimeSpent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="12dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:src="@drawable/ic_clock"
-                            app:tint="#6B7280" />
-
+                            android:src="@drawable/ic_clock" />
                         <TextView
                             android:id="@+id/tvLabelTimeSpent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_time_spent"
-                            android:textSize="12sp"
-                            android:textColor="#6B7280" />
+                            android:textColor="#6B7280"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <TextView
@@ -188,58 +165,48 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="0min"
-                        android:textSize="22sp"
-                        android:textColor="#2D3748" />
-
+                        android:textColor="#2D3748"
+                        android:textSize="22sp" />
                     <TextView
                         android:id="@+id/tvSubTimeSpent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@string/usage_minutes"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
+                        android:textColor="#6B7280"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Tokens Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTokens"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="12dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:src="@drawable/ic_bar_chart"
-                            app:tint="#6B7280" />
-
+                            android:src="@drawable/ic_bar_chart" />
                         <TextView
                             android:id="@+id/tvLabelTokens"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_tokens"
-                            android:textSize="12sp"
-                            android:textColor="#6B7280" />
+                            android:textColor="#6B7280"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <TextView
@@ -247,58 +214,48 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="0k"
-                        android:textSize="22sp"
-                        android:textColor="#2D3748" />
-
+                        android:textColor="#2D3748"
+                        android:textSize="22sp" />
                     <TextView
                         android:id="@+id/tvSubTokens"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@string/main_tokens"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
+                        android:textColor="#6B7280"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Carbon Footprint Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardCarbon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="12dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:src="@drawable/ic_leaf"
-                            app:tint="#6B7280" />
-
+                            android:src="@drawable/ic_leaf" />
                         <TextView
                             android:id="@+id/tvLabelCarbon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_carbon_footprint"
-                            android:textSize="12sp"
-                            android:textColor="#6B7280" />
+                            android:textColor="#6B7280"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <TextView
@@ -306,18 +263,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="0g"
-                        android:textSize="22sp"
-                        android:textColor="#2D3748" />
-
+                        android:textColor="#2D3748"
+                        android:textSize="22sp" />
                     <TextView
                         android:id="@+id/tvSubCarbon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@string/main_carbon_footprint"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
+                        android:textColor="#6B7280"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -343,35 +297,18 @@
                     android:id="@+id/tvWeeklyTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/usage_weekly_trend"
                     android:textColor="#2D3748"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvWeeklySubtitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="8dp"
-                    android:gravity="center_vertical">
+                    android:textSize="11sp"
+                    android:textColor="#6B7280" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/usage_requests"
-                        android:textSize="11sp"
-                        android:textColor="#6B7280" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/usage_carbon_with_unit"
-                        android:textSize="11sp"
-                        android:textColor="#6B7280" />
-                </LinearLayout>
-
-                <!-- 요일별 막대는 나중에 코드에서 width / progress 동적으로 조절 -->
-                <!-- 예시: Monday 라인 하나 -->
                 <LinearLayout
                     android:id="@+id/rowMon"
                     android:layout_width="match_parent"
@@ -380,12 +317,29 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="32dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:minWidth="32dp"
                         android:layout_height="wrap_content"
-                        android:text="Mon"
-                        android:textColor="#2D3748"
-                        android:textSize="12sp" />
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/tvLabelMon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mon"
+                            android:textColor="#2D3748"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvLabelToday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Today"
+                            android:textColor="#2D3748"
+                            android:textSize="12sp" />
+                        </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -394,7 +348,6 @@
                         android:orientation="vertical"
                         android:layout_marginStart="16dp">
 
-                        <!-- Requests Bar -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="8dp"
@@ -408,7 +361,6 @@
                                 android:background="#5A7C65" />
                         </LinearLayout>
 
-                        <!-- Carbon Bar -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="8dp"
@@ -434,7 +386,6 @@
                             android:id="@+id/tvMonRequestsValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
                             android:textSize="10sp"
                             android:textColor="#6B7280" />
 
@@ -442,14 +393,10 @@
                             android:id="@+id/tvMonCarbonValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
                             android:textSize="10sp"
                             android:textColor="#6B7280" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <!-- Tue ~ Sun 도 위와 같은 패턴으로 복붙해서 id만 요일별로 바꾸면 됨 -->
-
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -473,7 +420,6 @@
                     android:id="@+id/tvTipsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/usage_tips"
                     android:textColor="#2D3748"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -489,7 +435,6 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/tvTip1Icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="🌱"
@@ -506,7 +451,6 @@
                             android:id="@+id/tvTip1Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/usage_tip1"
                             android:textSize="13sp"
                             android:textColor="#2D3748" />
 
@@ -515,13 +459,90 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="@string/usage_tip1"
                             android:textSize="11sp"
                             android:textColor="#6B7280" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Tip 2, Tip 3도 같은 패턴으로 추가 -->
+                <!-- Tip 2 -->
+                <LinearLayout
+                    android:id="@+id/tip2Container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFFFF"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📦"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:id="@+id/tvTip2Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textColor="#2D3748" />
+
+                        <TextView
+                            android:id="@+id/tvTip2Desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textSize="11sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Tip 3 -->
+                <LinearLayout
+                    android:id="@+id/tip3Container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFFFF"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🤫"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:id="@+id/tvTip3Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textColor="#2D3748" />
+
+                        <TextView
+                            android:id="@+id/tvTip3Desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textSize="11sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -559,7 +580,6 @@
                         android:id="@+id/tvEnvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/usage_environmental_impact"
                         android:textColor="#2D3748"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -570,7 +590,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Equivalent X g CO₂:"
                     android:textColor="#6B7280"
                     android:textSize="12sp" />
 
@@ -586,22 +605,18 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:layout_marginTop="4dp">
-
                         <TextView
                             android:id="@+id/tvEnvCarLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🚗 Car distance"
-                            android:textSize="13sp"
-                            android:textColor="#2D3748" />
-
+                            android:textColor="#2D3748"
+                            android:textSize="13sp" />
                         <TextView
                             android:id="@+id/tvEnvCarValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0m"
-                            android:textSize="13sp"
-                            android:textColor="#6B7280" />
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -610,22 +625,18 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:layout_marginTop="4dp">
-
                         <TextView
                             android:id="@+id/tvEnvLightLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="💡 Light bulb"
-                            android:textSize="13sp"
-                            android:textColor="#2D3748" />
-
+                            android:textColor="#2D3748"
+                            android:textSize="13sp" />
                         <TextView
                             android:id="@+id/tvEnvLightValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0h"
-                            android:textSize="13sp"
-                            android:textColor="#6B7280" />
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -634,22 +645,18 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:layout_marginTop="4dp">
-
                         <TextView
                             android:id="@+id/tvEnvPhoneLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="📱 Phone charge"
-                            android:textSize="13sp"
-                            android:textColor="#2D3748" />
-
+                            android:textColor="#2D3748"
+                            android:textSize="13sp" />
                         <TextView
                             android:id="@+id/tvEnvPhoneValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="13sp"
-                            android:textColor="#6B7280" />
+                            android:textColor="#6B7280"
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
 

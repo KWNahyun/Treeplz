@@ -56,10 +56,15 @@
                     android:textColor="@color/muted" />
             </LinearLayout>
 
-            <Switch
+            <ToggleButton
                 android:id="@+id/switchLanguage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="20dp"
+                android:layout_height="16dp"
+                android:background="@drawable/selector_lang_thumb"
+                android:checked="false"
+                android:textOff=""
+                android:textOn=""
+                app:tint="@color/muted" />
         </LinearLayout>
 
         <!-- Stats banner -->

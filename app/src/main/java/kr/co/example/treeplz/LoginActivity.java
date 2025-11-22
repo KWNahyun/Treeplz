@@ -1,11 +1,9 @@
 package kr.co.example.treeplz;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +11,8 @@ import com.google.android.material.button.MaterialButton;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Switch switchLanguage;
+    // private Switch switchLanguage; // ❌ Switch 타입에서 ToggleButton 타입으로 변경
+    private ToggleButton switchLanguage; // ✅ 타입 수정
     private TextView tvWelcome, tvTitle, tvSubtitle, tvTerms;
     private MaterialButton btnGoogle, btnTutorial;
 
@@ -23,7 +22,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Views
-        switchLanguage = findViewById(R.id.switchLanguage);
+        // switchLanguage = findViewById(R.id.switchLanguage); // ❌ Switch로 캐스팅되는 것을 방지
+        switchLanguage = findViewById(R.id.switchLanguage); // ✅ ToggleButton으로 올바르게 캐스팅 (또는 <ToggleButton> 명시)
         tvWelcome = findViewById(R.id.tvWelcome);
         tvTitle = findViewById(R.id.tvTitle);
         tvSubtitle = findViewById(R.id.tvSubtitle);
@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         updateTexts();
 
         // Language toggle: switch between en / ko
+        // setOnCheckedChangeListener는 Switch와 ToggleButton 모두에 호환됩니다.
         switchLanguage.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 LanguageManager.getInstance().setLanguage(LanguageManager.Language.KO);
