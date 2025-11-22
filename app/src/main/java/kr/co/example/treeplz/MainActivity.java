@@ -19,6 +19,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.button.MaterialButton;
 
 import kr.co.example.treeplz.model.AiUsage;
+import kr.co.example.treeplz.model.ChatRequest;
+import kr.co.example.treeplz.model.ChatResponse;
 import kr.co.example.treeplz.network.ApiClient;
 import kr.co.example.treeplz.network.ApiService;
 import retrofit2.Call;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnCalendar, btnSettings;
     private ImageView imgTreeState; // 나무 이미지 뷰 추가
     private ToggleButton switchLanguage;
+
+    private MaterialButton btnChatDemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,13 +105,65 @@ public class MainActivity extends AppCompatActivity {
         btnCalendar = findViewById(R.id.btnCalendar);
         btnSettings = findViewById(R.id.btnSettings);
         imgTreeState = findViewById(R.id.imgTreeState);
+        btnChatDemo = findViewById(R.id.btnChatDemo);
     }
+
 
     private void setupListeners() {
         // Prompt Learning Activity 이동
         btnLearnPrompting.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EfficientPromptingActivity.class);
             startActivity(intent);
+        });
+
+        btnChatDemo.setOnClickListener(v -> {
+            String apiKey = preferenceHelper.getApiKey();
+            if (apiKey == null || apiKey.isEmpty()) {
+                Toast.makeText(this, "먼저 API Key를 설정해 주세요.", Toast.LENGTH_SHORT).show();
+                showApiKeyDialog();
+                return;
+            }
+
+            ApiService api = ApiClient.getInstance()
+                    .getRetrofit()
+                    .create(ApiService.class);
+
+            String authHeader = "Bearer " + apiKey;
+
+            // 서버로 보낼 메시지
+            ChatRequest body = new ChatRequest(
+                    "친환경적으로 LLM을 사용하는 팁을 한국어로 3줄만 알려줘."
+            );
+
+            api.chat(authHeader, body).enqueue(new Callback<ChatResponse>() {
+                @Override
+                public void onResponse(Call<ChatResponse> call, Response<ChatResponse> response) {
+                    if (!response.isSuccessful() || response.body() == null) {
+                        Toast.makeText(MainActivity.this,
+                                "Chat 호출 실패", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    ChatResponse chatRes = response.body();
+
+                    // 1) 응답을 팝업으로 보여주기
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Ask AI Demo")
+                            .setMessage(chatRes.reply)
+                            .setPositiveButton("OK", null)
+                            .show();
+
+                    // 2) 서버에 누적된 사용량 다시 가져와서 대시보드 갱신
+                    fetchUsageFromServer();
+                }
+
+                @Override
+                public void onFailure(Call<ChatResponse> call, Throwable t) {
+                    Toast.makeText(MainActivity.this,
+                            "네트워크 오류: " + t.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         // ✅ "VIEW DETAILED USAGE" 버튼 : UsageDetailsActivity로 AiUsage 전달
@@ -153,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
             refreshDashboard(); // 화면 즉시 갱신
             Toast.makeText(this, "+500 Tokens (Demo)", Toast.LENGTH_SHORT).show();
         });
+
     }
 
     // 저장된 데이터를 불러와 변수에 할당하고 UI를 그리는 함수 (로컬 기준)

@@ -195,6 +195,7 @@
             android:textSize="12sp"
             android:textColor="@color/muted"
             android:layout_gravity="bottom|start"/>
+
     </FrameLayout>
 
     <!-- Quick Stats and Actions area -->
@@ -308,6 +309,14 @@
             android:text="@string/detailed_usage"
             app:cornerRadius="12dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChatDemo"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Ask AI Demo"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="8dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
