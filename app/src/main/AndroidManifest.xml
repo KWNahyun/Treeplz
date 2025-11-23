@@ -39,5 +39,9 @@
             android:name=".EfficientPromptingActivity"
             android:exported="false" />
 
+        <activity android:name=".ChatActivity" />
+
+        <activity android:name=".LoginActivity"/>
+
     </application>
 </manifest>

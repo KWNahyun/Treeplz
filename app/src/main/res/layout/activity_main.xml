@@ -53,6 +53,19 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="14sp"
+            android:textColor="@color/muted"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless" />
+
         <ToggleButton
             android:id="@+id/switchLanguage"
             android:layout_width="20dp"

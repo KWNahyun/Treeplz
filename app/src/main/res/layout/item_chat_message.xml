@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- AI 말풍선 (왼쪽) -->
+        <TextView
+            android:id="@+id/tvAiMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="260dp"
+            android:padding="10dp"
+            android:textColor="@color/foreground"
+            android:background="@drawable/bg_chat_ai"
+            android:visibility="gone" />
+
+        <!-- 공간 채우기 -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- 유저 말풍선 (오른쪽) -->
+        <TextView
+            android:id="@+id/tvUserMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="260dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_chat_user"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

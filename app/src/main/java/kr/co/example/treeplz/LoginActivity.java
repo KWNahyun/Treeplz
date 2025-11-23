@@ -1,9 +1,13 @@
 package kr.co.example.treeplz;
 
 import android.os.Bundle;
+<<<<<<< Updated upstream
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
+=======
+import android.widget.ImageButton;
+>>>>>>> Stashed changes
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +19,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Switch switchLanguage;
     private TextView tvWelcome, tvTitle, tvSubtitle, tvTerms;
-    private MaterialButton btnGoogle, btnTutorial;
+    private ImageButton btnGoogle;
+    private MaterialButton btnTutorial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +72,6 @@ public class LoginActivity extends AppCompatActivity {
         tvWelcome.setText(LanguageManager.getInstance().t("login.welcome"));
         tvSubtitle.setText(LanguageManager.getInstance().t("login.subtitle"));
         tvTitle.setText("Treeplz"); // title is brand; keep as-is or translate if desired
-        btnGoogle.setText(LanguageManager.getInstance().t("login.googleButton"));
-        btnTutorial.setText(LanguageManager.getInstance().t("login.tutorial"));
         tvTerms.setText(LanguageManager.getInstance().t("login.terms"));
 
         // set switch checked state to reflect current language

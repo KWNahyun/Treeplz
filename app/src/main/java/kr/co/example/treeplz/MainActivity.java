@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     private MaterialButton btnChatDemo;
 
+    private TextView btnLogin;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         btnSettings = findViewById(R.id.btnSettings);
         imgTreeState = findViewById(R.id.imgTreeState);
         btnChatDemo = findViewById(R.id.btnChatDemo);
+        btnLogin = findViewById(R.id.btnLogin);
     }
 
 
@@ -117,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnChatDemo.setOnClickListener(v -> {
+<<<<<<< Updated upstream
             String apiKey = preferenceHelper.getApiKey();
             if (apiKey == null || apiKey.isEmpty()) {
                 Toast.makeText(this, "먼저 API Key를 설정해 주세요.", Toast.LENGTH_SHORT).show();
@@ -164,6 +169,15 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             });
+=======
+            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+            startActivity(intent);
+        });
+
+        btnLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+>>>>>>> Stashed changes
         });
 
         // ✅ "VIEW DETAILED USAGE" 버튼 : UsageDetailsActivity로 AiUsage 전달
@@ -202,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
         // [중요] 설정 버튼 -> API Key 입력 팝업
         btnSettings.setOnClickListener(v -> showApiKeyDialog());
 
+<<<<<<< Updated upstream
         // [데모용 기능] 나무 이미지를 클릭하면 사용량이 늘어난 것처럼 시뮬레이션
         // 발표할 때 나무를 다다다닥 클릭해서 시드는 모습을 보여주세요.
         imgTreeState.setOnClickListener(v -> {
@@ -210,6 +225,20 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "+500 Tokens (Demo)", Toast.LENGTH_SHORT).show();
         });
 
+=======
+        imgTreeState.setOnLongClickListener(v -> {
+            SharedPreferences prefs = getSharedPreferences("treeplz_prefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putLong("today_tokens", 0L);
+            editor.putInt("today_requests", 0);
+            editor.putLong("today_time", 0L);
+            editor.apply();
+
+            refreshDashboard();
+            Toast.makeText(MainActivity.this, "토큰 사용량이 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+>>>>>>> Stashed changes
     }
 
     // 저장된 데이터를 불러와 변수에 할당하고 UI를 그리는 함수 (로컬 기준)
@@ -225,7 +254,83 @@ public class MainActivity extends AppCompatActivity {
         updateAiUsageUI();
     }
 
+<<<<<<< Updated upstream
     // ✅ 서버에서 오늘 사용량 가져오기
+=======
+    private void showChatDialog(String apiKey) {
+        // 1) 입력 창 있는 다이얼로그 만들기
+        final EditText input = new EditText(this);
+        input.setHint("AI에게 물어볼 내용을 입력해 주세요");
+        input.setMinLines(2);
+        input.setMaxLines(4);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Ask AI Demo")
+                .setView(input)
+                .setPositiveButton("Send", null) // 나중에 override
+                .setNegativeButton("Cancel", (d, w) -> d.dismiss())
+                .create();
+
+        dialog.setOnShowListener(dlg -> {
+            // Send 버튼 눌렀을 때 직접 처리
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(btn -> {
+                String message = input.getText().toString().trim();
+                if (message.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "메시지를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // 2) 여기서 서버 /chat 호출
+                ApiService api = ApiClient.getInstance()
+                        .getRetrofit()
+                        .create(ApiService.class);
+
+                String authHeader = "Bearer " + apiKey;
+                ChatRequest body = new ChatRequest(message);
+
+                // 잠깐 비활성화해서 중복 클릭 방지
+                btn.setEnabled(false);
+
+                api.chat(authHeader, body).enqueue(new Callback<ChatResponse>() {
+                    @Override
+                    public void onResponse(Call<ChatResponse> call, Response<ChatResponse> response) {
+                        btn.setEnabled(true);
+
+                        if (!response.isSuccessful() || response.body() == null) {
+                            Toast.makeText(MainActivity.this, "Chat 호출 실패", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        ChatResponse chatRes = response.body();
+
+                        // 3) 응답을 새로운 다이얼로그로 보여주기 (간단 챗봇 UI)
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("AI 답변")
+                                .setMessage(chatRes.reply)
+                                .setPositiveButton("OK", null)
+                                .show();
+
+                        // 4) 사용량 다시 가져와서 나무/토큰 갱신
+                        fetchUsageFromServer();
+
+                        dialog.dismiss(); // 입력창 닫기
+                    }
+
+                    @Override
+                    public void onFailure(Call<ChatResponse> call, Throwable t) {
+                        btn.setEnabled(true);
+                        Toast.makeText(MainActivity.this,
+                                "네트워크 오류: " + t.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+        });
+
+        dialog.show();
+    }
+
+>>>>>>> Stashed changes
     private void fetchUsageFromServer() {
         // API Key가 없으면 굳이 호출 안 하고 로컬 값만 사용해도 됨
         String apiKey = preferenceHelper.getApiKey();
@@ -413,7 +518,17 @@ public class MainActivity extends AppCompatActivity {
         root.setBackground(gd);
     }
 
+<<<<<<< Updated upstream
     // API Key 입력 다이얼로그
+=======
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 화면으로 돌아올 때마다 최신 서버 사용량 가져오기
+        fetchUsageFromServer();
+    }
+
+>>>>>>> Stashed changes
     private void showApiKeyDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("OpenAI API Key");
