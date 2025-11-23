@@ -1,5 +1,6 @@
 package kr.co.example.treeplz;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class CalendarActivity extends AppCompatActivity {
     private ImageButton btnPrevMonth, btnNextMonth;
 
     // Detail Panel Components
+    private TextView tvSelectDateHint; // [추가됨] 안내 문구
     private CardView detailPanel;
     private TextView detailDateTitle;
     private TextView detailRequests;
@@ -38,7 +40,7 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calendar); // XML 파일명 확인
+        setContentView(R.layout.calendar);
 
         initViews();
 
@@ -51,6 +53,9 @@ public class CalendarActivity extends AppCompatActivity {
         calendarGrid = findViewById(R.id.calendarGrid);
         btnPrevMonth = findViewById(R.id.btnPrevMonth);
         btnNextMonth = findViewById(R.id.btnNextMonth);
+
+        // [추가됨] XML에 새로 만든 뷰 연결
+        tvSelectDateHint = findViewById(R.id.tvSelectDateHint);
 
         detailPanel = findViewById(R.id.detailPanel);
         detailDateTitle = findViewById(R.id.detailDateTitle);
@@ -76,14 +81,15 @@ public class CalendarActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
         monthTitle.setText(sdf.format(currentMonth.getTime()));
 
-        // 2. 데이터 생성 (월이 바뀔 때마다 새로 생성한다고 가정)
+        // 2. 데이터 생성
         generateMockData();
 
         // 3. 그리드 그리기
         buildCalendarGrid();
 
-        // 4. 패널 숨기기
-        detailPanel.setVisibility(View.INVISIBLE);
+        // 4. [변경] 패널은 숨기고, 안내 문구(Hint)를 보여줍니다.
+        detailPanel.setVisibility(View.GONE);
+        tvSelectDateHint.setVisibility(View.VISIBLE);
     }
 
     private void generateMockData() {
@@ -93,12 +99,12 @@ public class CalendarActivity extends AppCompatActivity {
         int daysInMonth = temp.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         for (int i = 1; i <= daysInMonth; i++) {
-            boolean hasData = Math.random() > 0.3;
+            boolean hasData = Math.random() > 0.4; // 데이터가 있을 확률
             if (hasData) {
                 int requests = (int) (Math.random() * 50) + 5;
                 int tokens = (int) (Math.random() * 10000) + 1000;
                 double timeSpent = Math.random() * 60 + 5;
-                int carbon = (int) (tokens * 0.02); // 임의 계산
+                int carbon = (int) (tokens * 0.02);
                 int health = Math.max(0, 100 - (requests + (int)(tokens/500.0)));
 
                 calendarData.add(new DayData(i, true, requests, tokens, timeSpent, carbon, health));
@@ -130,25 +136,22 @@ public class CalendarActivity extends AppCompatActivity {
             dayView.setText(String.valueOf(day.date));
             dayView.setTextSize(14);
             dayView.setGravity(Gravity.CENTER);
-            dayView.setTextColor(Color.DKGRAY);
+            dayView.setTextColor(Color.parseColor("#555555")); // 기본 날짜 색
 
-            // 둥근 배경 만들기 (프로그래매틱 Drawable)
+            // 둥근 배경 만들기
             GradientDrawable bg = new GradientDrawable();
-            bg.setShape(GradientDrawable.OVAL); // 혹은 RECTANGLE + setCornerRadius
+            bg.setShape(GradientDrawable.OVAL);
 
             if (day.hasData) {
                 bg.setColor(getHealthColor(day.healthLevel));
-                // 텍스트 색상을 흰색으로 해야 잘 보임
-                dayView.setTextColor(Color.WHITE);
+                dayView.setTextColor(Color.WHITE); // 데이터 있으면 흰색 글씨
             } else {
-                bg.setColor(Color.TRANSPARENT); // 데이터 없으면 투명
+                bg.setColor(Color.TRANSPARENT);
             }
 
-            // 사이즈 조정 (작은 원형)
             bg.setSize(100, 100);
             dayView.setBackground(bg);
 
-            // 클릭 이벤트
             dayView.setOnClickListener(v -> showDayDetail(day));
 
             calendarGrid.addView(dayView, getGridParams());
@@ -156,10 +159,9 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     private GridLayout.LayoutParams getGridParams() {
-        // 각 셀이 1:1 비율로 균등하게 퍼지도록 설정
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = 0;
-        params.height = 120; // 높이 고정 (적절히 조절)
+        params.height = 120; // 셀 높이
         params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
         params.setMargins(8, 8, 8, 8);
         return params;
@@ -168,31 +170,46 @@ public class CalendarActivity extends AppCompatActivity {
     private void showDayDetail(DayData day) {
         if (!day.hasData) return;
 
+        // [변경] 힌트는 숨기고 패널을 보여줌
+        tvSelectDateHint.setVisibility(View.GONE);
         detailPanel.setVisibility(View.VISIBLE);
 
-        // 날짜 표시
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM", Locale.ENGLISH);
-        String monthName = sdf.format(currentMonth.getTime());
-        detailDateTitle.setText(monthName + " " + day.date);
+        // 날짜 포맷 (Ex: Nov 15)
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMM", Locale.ENGLISH);
+        String monthStr = monthFormat.format(currentMonth.getTime());
+        detailDateTitle.setText(monthStr + " " + day.date);
 
+        // 수치 설정
         detailRequests.setText(String.valueOf(day.requests));
         detailTokens.setText(String.format("%.1fk", day.tokens / 1000.0));
         detailCarbon.setText(day.carbonFootprint + "g");
 
-        detailHealth.setText("Tree Health: " + day.healthLevel + "%");
-        detailHealth.setTextColor(getHealthColor(day.healthLevel));
+        // 건강 상태 텍스트 및 배지 색상 변경
+        detailHealth.setText(getHealthText(day.healthLevel));
+
+        // [중요] 배지 배경색 변경 (Android Lollipop 이상)
+        detailHealth.setBackgroundTintList(
+                ColorStateList.valueOf(getHealthColor(day.healthLevel))
+        );
+    }
+
+    private String getHealthText(int h) {
+        if (h >= 80) return "Thriving 🌿";
+        if (h >= 60) return "Healthy 🌱";
+        if (h >= 40) return "Declining 🍂";
+        if (h >= 20) return "Wilting 🥀";
+        return "Critical ⚠️";
     }
 
     private int getHealthColor(int h) {
-        // colors.xml에 있는 색상 코드 직접 사용 (Color.parseColor)
-        if (h >= 80) return Color.parseColor("#2E7D32"); // seed_green
-        if (h >= 60) return Color.parseColor("#4CAF50"); // seed_green_light
-        if (h >= 40) return Color.parseColor("#81C784"); // accent_leaf
-        if (h >= 20) return Color.parseColor("#FFB74D"); // 약간 경고색 (Orange)
-        return Color.parseColor("#E57373"); // 위험 (Red)
+        if (h >= 80) return Color.parseColor("#2E7D32"); // 진한 초록
+        if (h >= 60) return Color.parseColor("#4CAF50"); // 초록
+        if (h >= 40) return Color.parseColor("#FFB74D"); // 주황
+        if (h >= 20) return Color.parseColor("#FF8A65"); // 다홍
+        return Color.parseColor("#E57373"); // 빨강
     }
 
-    // 데이터 모델 (기존과 동일)
+    // 데이터 모델
     public static class DayData {
         int date;
         boolean hasData;

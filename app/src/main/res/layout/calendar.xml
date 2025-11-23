@@ -4,132 +4,240 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="#F8F9F5"
     android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
-
-        <ImageButton
-            android:id="@+id/btnPrevMonth"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_chevron_down"
-            android:rotation="90"
-            app:tint="@color/primary" />
-
-        <TextView
-            android:id="@+id/monthTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="November 2025"
-            android:textSize="20sp"
-            android:textColor="@color/primary"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btnNextMonth"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_chevron_down"
-            android:rotation="-90"
-            app:tint="@color/primary" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView android:text="S" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999999" android:textStyle="bold"/>
-        <TextView android:text="M" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999999" android:textStyle="bold"/>
-        <TextView android:text="T" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999999" android:textStyle="bold"/>
-        <TextView android:text="W" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999999" android:textStyle="bold"/>
-        <TextView android:text="T" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999999" android:textStyle="bold"/>
-        <TextView android:text="F" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999999" android:textStyle="bold"/>
-        <TextView android:text="S" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999999" android:textStyle="bold"/>
-    </LinearLayout>
-
-    <GridLayout
-        android:id="@+id/calendarGrid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="7"
-        android:useDefaultMargins="true"
-        android:alignmentMode="alignMargins"/>
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/detailPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/white"
-        android:visibility="invisible">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@android:color/white"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/detailDateTitle"
-                android:text="November 15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary"
-                android:layout_marginBottom="12dp"/>
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-                <TextView android:text="Requests:" android:layout_width="100dp" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/detailRequests" android:text="320" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:gravity="center_vertical"
+                android:padding="16dp"
+                android:background="#F5F7F2">
+
+                <ImageButton
+                    android:id="@+id/btnPrevMonth"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_chevron_down"
+                    android:rotation="90"
+                    app:tint="#5a7c65" />
+
+                <TextView
+                    android:id="@+id/monthTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="November 2025"
+                    android:textSize="18sp"
+                    android:textColor="#5a7c65"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btnNextMonth"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_chevron_down"
+                    android:rotation="-90"
+                    app:tint="#5a7c65" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="8dp">
-                <TextView android:text="Tokens:" android:layout_width="100dp" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/detailTokens" android:text="150k" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+                <TextView android:text="S" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999" android:textStyle="bold" android:textSize="13sp"/>
+                <TextView android:text="M" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999" android:textStyle="bold" android:textSize="13sp"/>
+                <TextView android:text="T" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999" android:textStyle="bold" android:textSize="13sp"/>
+                <TextView android:text="W" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999" android:textStyle="bold" android:textSize="13sp"/>
+                <TextView android:text="T" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999" android:textStyle="bold" android:textSize="13sp"/>
+                <TextView android:text="F" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999" android:textStyle="bold" android:textSize="13sp"/>
+                <TextView android:text="S" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textColor="#999" android:textStyle="bold" android:textSize="13sp"/>
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/calendarGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="7"
+                android:useDefaultMargins="true"
+                android:alignmentMode="alignMargins"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvSelectDateHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select a date to view details"
+        android:gravity="center"
+        android:textColor="#999"
+        android:textSize="14sp"
+        android:padding="20dp"
+        android:visibility="visible"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@android:color/white"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/detailDateTitle"
+                    android:text="Nov 15"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#5a7c65"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/detailHealth"
+                    android:text="Healthy 🌿"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/badge_round"
+                    android:backgroundTint="#6b8e5a"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-                <TextView android:text="Carbon:" android:layout_width="100dp" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/detailCarbon" android:text="50g" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            </LinearLayout>
+                android:baselineAligned="false">
 
-            <TextView
-                android:id="@+id/detailHealth"
-                android:text="Tree Health: Healthy 🌿"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp"
-                android:textColor="@color/leaf_green"
-                android:textStyle="bold"
-                android:layout_gravity="end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:text="Requests"
+                        android:textSize="12sp"
+                        android:textColor="#888"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/detailRequests"
+                        android:text="320"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#1C1C1E"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:background="#EEE"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:text="Tokens"
+                        android:textSize="12sp"
+                        android:textColor="#888"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/detailTokens"
+                        android:text="15.2k"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#1C1C1E"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:background="#EEE"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:text="CO₂"
+                        android:textSize="12sp"
+                        android:textColor="#888"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/detailCarbon"
+                        android:text="50g"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#1C1C1E"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -1,13 +1,10 @@
 package kr.co.example.treeplz;
 
 import android.os.Bundle;
-<<<<<<< Updated upstream
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
-=======
 import android.widget.ImageButton;
->>>>>>> Stashed changes
 import android.widget.TextView;
 import android.widget.Toast;
 

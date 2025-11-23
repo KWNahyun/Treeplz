@@ -3,6 +3,7 @@ package kr.co.example.treeplz.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,13 +35,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         ChatMessage msg = messages.get(position);
 
         if (msg.sender == ChatMessage.Sender.USER) {
-            holder.tvUser.setVisibility(View.VISIBLE);
-            holder.tvAi.setVisibility(View.GONE);
-            holder.tvUser.setText(msg.text);
+            // [유저일 때]
+            holder.tvUserMessage.setVisibility(View.VISIBLE);
+            holder.tvUserMessage.setText(msg.text);
+
+            // AI 관련 숨김
+            holder.tvAiMessage.setVisibility(View.GONE);
+            holder.ivAiProfile.setVisibility(View.GONE);
+
         } else {
-            holder.tvAi.setVisibility(View.VISIBLE);
-            holder.tvUser.setVisibility(View.GONE);
-            holder.tvAi.setText(msg.text);
+            // [AI일 때]
+            holder.tvAiMessage.setVisibility(View.VISIBLE);
+            holder.tvAiMessage.setText(msg.text);
+            holder.ivAiProfile.setVisibility(View.VISIBLE);
+
+            // 유저 관련 숨김
+            holder.tvUserMessage.setVisibility(View.GONE);
         }
     }
 
@@ -49,14 +59,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         return messages.size();
     }
 
+    // ★ 에러가 났던 부분: 변수 선언과 사용 이름을 정확히 일치시켰습니다.
     static class ChatViewHolder extends RecyclerView.ViewHolder {
-        TextView tvUser;
-        TextView tvAi;
+        // 1. 변수 선언
+        TextView tvUserMessage;
+        TextView tvAiMessage;
+        ImageView ivAiProfile;
 
         ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvUser = itemView.findViewById(R.id.tvUserMessage);
-            tvAi = itemView.findViewById(R.id.tvAiMessage);
+            // 2. 초기화 (변수명 = XML ID)
+            tvUserMessage = itemView.findViewById(R.id.tvUserMessage);
+            tvAiMessage = itemView.findViewById(R.id.tvAiMessage);
+            ivAiProfile = itemView.findViewById(R.id.ivAiProfile);
         }
     }
 }

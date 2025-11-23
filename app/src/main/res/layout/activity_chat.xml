@@ -37,12 +37,17 @@
             android:hint="메시지를 입력하세요"
             android:maxLines="4" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send"
-            android:layout_marginStart="8dp" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/badge_round"
+            android:backgroundTint="#5a7c65"
+            android:src="@android:drawable/ic_menu_send"
+            app:tint="@android:color/white"
+            android:scaleType="centerInside"
+            android:contentDescription="Send Message"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
