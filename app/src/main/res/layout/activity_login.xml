@@ -2,141 +2,128 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:padding="24dp">
 
-    <!-- Gradient background (defined via drawable) -->
-    <View
-        android:id="@+id/gradientBackground"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_gradient"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Background image (semi transparent). For real remote images, use Glide/Picasso -->
-    <ImageView
-        android:id="@+id/bgImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.20"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_placeholder"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Language toggle (top-right) -->
-    <Switch
-        android:id="@+id/switchLanguage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"/>
-
-    <!-- Content container -->
+    <!-- 로고 영역 -->
     <LinearLayout
-        android:id="@+id/content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_width="0dp"
+        android:id="@+id/logoContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="32dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/inputContainer"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.4">
 
-        <!-- Logo circle -->
-
-        <FrameLayout
+        <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/logo_circle"
-            android:clipChildren="false"
-            android:clipToPadding="false">
-
-            <!-- Simple vector leaf/tree icon. You can replace with VectorDrawable -->
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_tree_white" />
-        </FrameLayout>
+            android:src="@drawable/ic_leaf"
+            app:tint="#5a7c65"
+            android:layout_marginBottom="16dp"/>
 
         <TextView
-            android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to"
-            android:textSize="16sp"
-            android:textColor="@color/muted"
-            android:layout_marginBottom="6dp"/>
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Treeplz"
-            android:textSize="34sp"
+            android:text="TreePlz"
+            android:textSize="32sp"
             android:textStyle="bold"
-            android:textColor="@color/foreground"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#5a7c65"
+            android:fontFamily="sans-serif-medium"/>
 
         <TextView
-            android:id="@+id/tvSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Track your AI usage and see its environmental impact"
+            android:text="Eco-friendly AI Usage Tracker"
             android:textSize="14sp"
-            android:textColor="@color/muted"
-            android:gravity="center"
-            android:layout_marginBottom="24dp"
-            android:maxWidth="280dp"/>
-
-        <!-- Buttons -->
-        <ImageButton
-            android:id="@+id/btnGoogle"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="8dp"
-
-            android:src="@drawable/btn_google_signin"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:contentDescription="Continue with Google"
-            android:padding="0dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTutorial"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
-            android:text="How it works"
-            android:textAllCaps="false"/>
-
-        <TextView
-            android:id="@+id/tvTerms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="By continuing, you agree to our Terms of Service and Privacy Policy"
-            android:textSize="12sp"
-            android:textColor="@color/muted"
-            android:gravity="center"
-            android:layout_marginTop="16dp"/>
+            android:textColor="#6B7280"
+            android:layout_marginTop="4dp"/>
     </LinearLayout>
 
-    <!-- Decorative dots (absolute-like) -->
+    <!-- 입력 필드 영역 -->
+    <LinearLayout
+        android:id="@+id/inputContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/logoContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.1">
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/card_bg"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/card_bg"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLoginAction"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Sign In"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:backgroundTint="#5a7c65"/>
+
+        <!-- [추가됨] 회원가입 버튼 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:text="Don't have an account?"
+                android:textColor="#6B7280"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tvSignUp"
+                android:text="Sign Up"
+                android:textColor="#5a7c65"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginStart="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"/>
+        </LinearLayout>
+
+        <!-- 게스트 로그인 -->
+        <TextView
+            android:id="@+id/tvGuestLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continue as Guest"
+            android:textColor="#6B7280"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

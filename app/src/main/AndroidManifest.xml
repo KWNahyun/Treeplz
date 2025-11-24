@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,22 +25,13 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".UsageDetailsActivity"
+            android:name=".MainActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".CalendarActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".EfficientPromptingActivity"
-            android:exported="false" />
-
+        <activity android:name=".UsageDetailsActivity" />
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".EfficientPromptingActivity" />
         <activity android:name=".ChatActivity" />
-
-
+        <activity android:name=".SignUpActivity" />
     </application>
 </manifest>

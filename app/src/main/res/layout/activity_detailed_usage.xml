@@ -31,7 +31,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/button"
                 android:padding="8dp"
-                android:contentDescription="@string/usage_back"
+                android:contentDescription="Back"
                 android:src="@drawable/ic_back"
                 app:tint="#6B7280"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usage_title"
+                android:text="Detailed Usage"
                 android:textColor="#2D3748"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -53,7 +53,7 @@
                 app:layout_constraintEnd_toStartOf="@id/languageToggleContainer"
                 app:layout_constraintHorizontal_bias="0.5" />
 
-            <!-- Language Toggle placeholder -->
+            <!-- Language Toggle (메인과 스타일 통일) -->
             <FrameLayout
                 android:id="@+id/languageToggleContainer"
                 android:layout_width="wrap_content"
@@ -62,14 +62,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <!-- 나중에 커스텀 토글 / 버튼 붙이기 -->
-                <ImageView
-                    android:id="@+id/ivLanguageToggle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_language"
-                    android:contentDescription="@string/usage_language_toggle"
-                    app:tint="#6B7280" />
+                <ToggleButton
+                    android:id="@+id/switchLanguage"
+                    android:layout_width="20dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/selector_lang_thumb"
+                    android:checked="false"
+                    android:textOff=""
+                    android:textOn=""
+                    app:tint="@color/muted" />
             </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -85,13 +86,11 @@
             android:alignmentMode="alignMargins"
             android:useDefaultMargins="true">
 
-            <!-- Requests Card -->
+            <!-- Requests -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardRequests"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="2dp">
@@ -119,7 +118,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_requests"
+                            android:text="Requests"
                             android:textSize="12sp"
                             android:textColor="#6B7280" />
                     </LinearLayout>
@@ -132,25 +131,14 @@
                         android:text="0"
                         android:textSize="22sp"
                         android:textColor="#2D3748" />
-
-                    <TextView
-                        android:id="@+id/tvSubRequests"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/main_today_usage"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Time Spent Card -->
+            <!-- Time Spent -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardTimeSpent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="2dp">
@@ -178,7 +166,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_time_spent"
+                            android:text="Time"
                             android:textSize="12sp"
                             android:textColor="#6B7280" />
                     </LinearLayout>
@@ -191,25 +179,14 @@
                         android:text="0min"
                         android:textSize="22sp"
                         android:textColor="#2D3748" />
-
-                    <TextView
-                        android:id="@+id/tvSubTimeSpent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/usage_minutes"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Tokens Card -->
+            <!-- Tokens -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardTokens"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="2dp">
@@ -237,7 +214,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_tokens"
+                            android:text="Tokens"
                             android:textSize="12sp"
                             android:textColor="#6B7280" />
                     </LinearLayout>
@@ -250,25 +227,14 @@
                         android:text="0k"
                         android:textSize="22sp"
                         android:textColor="#2D3748" />
-
-                    <TextView
-                        android:id="@+id/tvSubTokens"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/main_tokens"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Carbon Footprint Card -->
+            <!-- Carbon -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardCarbon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="2dp">
@@ -296,7 +262,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="@string/usage_carbon_footprint"
+                            android:text="Carbon"
                             android:textSize="12sp"
                             android:textColor="#6B7280" />
                     </LinearLayout>
@@ -309,23 +275,12 @@
                         android:text="0g"
                         android:textSize="22sp"
                         android:textColor="#2D3748" />
-
-                    <TextView
-                        android:id="@+id/tvSubCarbon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/main_carbon_footprint"
-                        android:textSize="10sp"
-                        android:textColor="#6B7280" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
         </GridLayout>
 
-        <!-- Weekly Trend Card -->
+        <!-- Weekly Trend (Dummy) -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardWeeklyTrend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -343,35 +298,11 @@
                     android:id="@+id/tvWeeklyTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/usage_weekly_trend"
+                    android:text="Weekly Trend"
                     android:textColor="#2D3748"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/usage_requests"
-                        android:textSize="11sp"
-                        android:textColor="#6B7280" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/usage_carbon_with_unit"
-                        android:textSize="11sp"
-                        android:textColor="#6B7280" />
-                </LinearLayout>
-
-                <!-- 요일별 막대는 나중에 코드에서 width / progress 동적으로 조절 -->
-                <!-- 예시: Monday 라인 하나 -->
                 <LinearLayout
                     android:id="@+id/rowMon"
                     android:layout_width="match_parent"
@@ -387,75 +318,57 @@
                         android:textColor="#2D3748"
                         android:textSize="12sp" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
+                    <View
+                        android:id="@+id/barMonRequests"
+                        android:layout_width="100dp"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="16dp"
+                        android:background="#5A7C65"/>
 
-                        <!-- Requests Bar -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="8dp"
-                            android:background="#E2E8DC"
-                            android:orientation="horizontal">
-
-                            <View
-                                android:id="@+id/barMonRequests"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:background="#5A7C65" />
-                        </LinearLayout>
-
-                        <!-- Carbon Bar -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="#E2E8DC"
-                            android:orientation="horizontal">
-
-                            <View
-                                android:id="@+id/barMonCarbon"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:background="#8B9677" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tvMonRequestsValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp">
-
-                        <TextView
-                            android:id="@+id/tvMonRequestsValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="10sp"
-                            android:textColor="#6B7280" />
-
-                        <TextView
-                            android:id="@+id/tvMonCarbonValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="10sp"
-                            android:textColor="#6B7280" />
-                    </LinearLayout>
+                        android:layout_marginStart="8dp"
+                        android:text="12"
+                        android:textSize="12sp"
+                        android:textColor="#6B7280"/>
                 </LinearLayout>
 
-                <!-- Tue ~ Sun 도 위와 같은 패턴으로 복붙해서 id만 요일별로 바꾸면 됨 -->
+                <!-- 더미 데이터로 화요일 하나 더 추가 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:text="Tue"
+                        android:textColor="#2D3748"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="140dp"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="16dp"
+                        android:background="#5A7C65"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="18"
+                        android:textSize="12sp"
+                        android:textColor="#6B7280"/>
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Tips Card -->
+        <!-- [개선 포인트 2] Tips Section (3개 목록으로 확장) -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardTips"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -473,27 +386,24 @@
                     android:id="@+id/tvTipsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/usage_tips"
+                    android:text="Tips for Reduction"
                     android:textColor="#2D3748"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
 
                 <!-- Tip 1 -->
                 <LinearLayout
-                    android:id="@+id/tip1Container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="#FFFFFFFF"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:gravity="top">
 
                     <TextView
-                        android:id="@+id/tvTip1Icon"
-                        android:layout_width="wrap_content"
+                        android:layout_width="24dp"
                         android:layout_height="wrap_content"
-                        android:text="🌱"
-                        android:textSize="16sp" />
+                        android:text="🎯"
+                        android:textSize="16sp"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -506,7 +416,8 @@
                             android:id="@+id/tvTip1Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/usage_tip1"
+                            android:text="Be Specific"
+                            android:textStyle="bold"
                             android:textSize="13sp"
                             android:textColor="#2D3748" />
 
@@ -515,20 +426,101 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="@string/usage_tip1"
-                            android:textSize="11sp"
+                            android:text="Precise prompts reduce follow-up queries."
+                            android:textSize="12sp"
                             android:textColor="#6B7280" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Tip 2, Tip 3도 같은 패턴으로 추가 -->
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"/>
+
+                <!-- Tip 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="top">
+
+                    <TextView
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content"
+                        android:text="📦"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:id="@+id/tvTip2Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Batch Requests"
+                            android:textStyle="bold"
+                            android:textSize="13sp"
+                            android:textColor="#2D3748" />
+
+                        <TextView
+                            android:id="@+id/tvTip2Desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Ask multiple questions in one go."
+                            android:textSize="12sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"/>
+
+                <!-- Tip 3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="top">
+
+                    <TextView
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content"
+                        android:text="📅"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp">
+
+                        <TextView
+                            android:id="@+id/tvTip3Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Check Daily"
+                            android:textStyle="bold"
+                            android:textSize="13sp"
+                            android:textColor="#2D3748" />
+
+                        <TextView
+                            android:id="@+id/tvTip3Desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Stay aware of your digital carbon footprint."
+                            android:textSize="12sp"
+                            android:textColor="#6B7280" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Environmental Impact Card -->
+        <!-- Env Impact -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardEnvImpact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -542,120 +534,49 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvEnvTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🌍"
-                        android:textSize="18sp"
-                        android:layout_marginEnd="4dp" />
-
-                    <TextView
-                        android:id="@+id/tvEnvTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/usage_environmental_impact"
-                        android:textColor="#2D3748"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                    android:text="Environmental Impact"
+                    android:textColor="#2D3748"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvEnvDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Equivalent X g CO₂:"
+                    android:text="Equivalent to..."
+                    android:textSize="12sp"
                     android:textColor="#6B7280"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="8dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvEnvCarValue"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical">
+                    android:text="0m Car"
+                    android:textSize="13sp"
+                    android:layout_marginTop="4dp"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
+                <TextView
+                    android:id="@+id/tvEnvLightValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0h Light"
+                    android:textSize="13sp"
+                    android:layout_marginTop="4dp"/>
 
-                        <TextView
-                            android:id="@+id/tvEnvCarLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🚗 Car distance"
-                            android:textSize="13sp"
-                            android:textColor="#2D3748" />
-
-                        <TextView
-                            android:id="@+id/tvEnvCarValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0m"
-                            android:textSize="13sp"
-                            android:textColor="#6B7280" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
-
-                        <TextView
-                            android:id="@+id/tvEnvLightLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="💡 Light bulb"
-                            android:textSize="13sp"
-                            android:textColor="#2D3748" />
-
-                        <TextView
-                            android:id="@+id/tvEnvLightValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0h"
-                            android:textSize="13sp"
-                            android:textColor="#6B7280" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="4dp">
-
-                        <TextView
-                            android:id="@+id/tvEnvPhoneLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📱 Phone charge"
-                            android:textSize="13sp"
-                            android:textColor="#2D3748" />
-
-                        <TextView
-                            android:id="@+id/tvEnvPhoneValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="13sp"
-                            android:textColor="#6B7280" />
-                    </LinearLayout>
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/tvEnvPhoneValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 Charges"
+                    android:textSize="13sp"
+                    android:layout_marginTop="4dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>

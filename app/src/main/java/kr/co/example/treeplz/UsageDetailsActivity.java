@@ -6,8 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,29 +15,33 @@ import kr.co.example.treeplz.model.AiUsage;
 
 public class UsageDetailsActivity extends AppCompatActivity {
 
-    public static final String EXTRA_AI_USAGE = "extra_data"; // 키 이름 통일
+    public static final String EXTRA_AI_USAGE = "extra_data";
 
-    // Helper method
     public static void start(Context context, AiUsage usage) {
         Intent intent = new Intent(context, UsageDetailsActivity.class);
         intent.putExtra(EXTRA_AI_USAGE, usage);
         context.startActivity(intent);
     }
 
-    private TextView tvValueRequests;
-    private TextView tvValueTimeSpent;
-    private TextView tvValueTokens;
-    private TextView tvValueCarbon;
+    private TextView tvTitle;
+    private ToggleButton switchLanguage;
 
-    private TextView tvEnvDescription;
-    private TextView tvEnvCarValue;
-    private TextView tvEnvLightValue;
-    private TextView tvEnvPhoneValue;
+    private TextView tvLabelRequests, tvValueRequests;
+    private TextView tvLabelTime, tvValueTimeSpent;
+    private TextView tvLabelTokens, tvValueTokens;
+    private TextView tvLabelCarbon, tvValueCarbon;
+
+    private TextView tvWeeklyTitle;
+    private TextView tvTipsTitle;
+    private TextView tvTip1Title, tvTip1Desc;
+    private TextView tvTip2Title, tvTip2Desc;
+    private TextView tvTip3Title, tvTip3Desc;
+
+    private TextView tvEnvTitle, tvEnvDescription;
+    private TextView tvEnvCarValue, tvEnvLightValue, tvEnvPhoneValue;
 
     private View barMonRequests;
-    private View barMonCarbon;
     private TextView tvMonRequestsValue;
-    private TextView tvMonCarbonValue;
 
     private AiUsage aiUsage;
 
@@ -49,88 +53,136 @@ public class UsageDetailsActivity extends AppCompatActivity {
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        // 뷰 초기화
         initViews();
+        setupLanguageToggle();
 
-        // 1. 데이터 수신 (버전별 처리)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             aiUsage = getIntent().getSerializableExtra(EXTRA_AI_USAGE, AiUsage.class);
         } else {
             aiUsage = (AiUsage) getIntent().getSerializableExtra(EXTRA_AI_USAGE);
         }
 
-        // 2. 데이터가 있으면 화면 갱신
         if (aiUsage != null) {
             bindDataToViews();
         } else {
-            // 데이터 없으면 더미 데이터로 테스트 (선택사항)
+            // 더미 데이터
             aiUsage = new AiUsage(320, 162600, 744.0, 595.0);
             bindDataToViews();
         }
 
-        // 주간 트렌드 (더미)
-        bindWeeklyTrend();
+        // 초기 텍스트 로드 (LanguageManager 사용)
+        updateStrings();
     }
 
     private void initViews() {
+        tvTitle = findViewById(R.id.tvTitle);
+        switchLanguage = findViewById(R.id.switchLanguage);
+
+        tvLabelRequests = findViewById(R.id.tvLabelRequests);
         tvValueRequests = findViewById(R.id.tvValueRequests);
+        tvLabelTime = findViewById(R.id.tvLabelTimeSpent);
         tvValueTimeSpent = findViewById(R.id.tvValueTimeSpent);
+        tvLabelTokens = findViewById(R.id.tvLabelTokens);
         tvValueTokens = findViewById(R.id.tvValueTokens);
+        tvLabelCarbon = findViewById(R.id.tvLabelCarbon);
         tvValueCarbon = findViewById(R.id.tvValueCarbon);
 
+        tvWeeklyTitle = findViewById(R.id.tvWeeklyTitle);
+        tvTipsTitle = findViewById(R.id.tvTipsTitle);
+        tvTip1Title = findViewById(R.id.tvTip1Title); tvTip1Desc = findViewById(R.id.tvTip1Desc);
+        tvTip2Title = findViewById(R.id.tvTip2Title); tvTip2Desc = findViewById(R.id.tvTip2Desc);
+        tvTip3Title = findViewById(R.id.tvTip3Title); tvTip3Desc = findViewById(R.id.tvTip3Desc);
+
+        tvEnvTitle = findViewById(R.id.tvEnvTitle);
         tvEnvDescription = findViewById(R.id.tvEnvDescription);
         tvEnvCarValue = findViewById(R.id.tvEnvCarValue);
         tvEnvLightValue = findViewById(R.id.tvEnvLightValue);
         tvEnvPhoneValue = findViewById(R.id.tvEnvPhoneValue);
 
         barMonRequests = findViewById(R.id.barMonRequests);
-        barMonCarbon = findViewById(R.id.barMonCarbon);
         tvMonRequestsValue = findViewById(R.id.tvMonRequestsValue);
-        tvMonCarbonValue = findViewById(R.id.tvMonCarbonValue);
+    }
+
+    private void setupLanguageToggle() {
+        boolean isKo = LanguageManager.getInstance().getLanguage() == LanguageManager.Language.KO;
+        switchLanguage.setChecked(isKo);
+
+        switchLanguage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                LanguageManager.getInstance().setLanguage(LanguageManager.Language.KO);
+            } else {
+                LanguageManager.getInstance().setLanguage(LanguageManager.Language.EN);
+            }
+            // 언어 변경 시 텍스트 즉시 갱신
+            updateStrings();
+        });
     }
 
     private void bindDataToViews() {
-        // [수정] 변수 이름 불일치 해결: model/AiUsage의 필드명 사용
-
-        // 1. Requests
         tvValueRequests.setText(String.valueOf(aiUsage.requests));
-
-        // 2. Time (분 단위 가정)
         int minutes = (int) Math.round(aiUsage.timeSpent);
         tvValueTimeSpent.setText(minutes + "min");
-
-        // 3. Tokens (1000단위 k)
         tvValueTokens.setText(String.format("%.1fk", aiUsage.tokens / 1000.0));
-
-        // 4. Carbon
         tvValueCarbon.setText(String.format("%.1fg", aiUsage.carbonFootprint));
 
-
-        // 5. Environmental Impact
-        // (res/values/strings.xml에 usage_env_equivalent 없으면 하드코딩)
-        String desc = "Equivalent to " + (int)aiUsage.carbonFootprint + "g CO₂:";
-        tvEnvDescription.setText(desc);
-
-        double carbon = aiUsage.carbonFootprint;
-        tvEnvCarValue.setText(String.format("%.1fm", carbon * 6.0));
-        tvEnvLightValue.setText(String.format("%.1fh", carbon * 0.1));
-        tvEnvPhoneValue.setText(String.format("%.1f", carbon * 0.2));
+        // 환경 영향 수치 갱신 (단위 텍스트는 updateStrings에서 처리)
+        updateEnvImpactValues();
     }
 
-    // 주간 트렌드 (더미 데이터 표시용)
-    private void bindWeeklyTrend() {
-        // 만약 XML에 해당 뷰가 없으면(아까 수정한 XML에는 없을 수 있음) 앱이 죽지 않게 null 체크
-        if (barMonRequests == null) return;
+    private void updateEnvImpactValues() {
+        double carbon = aiUsage.carbonFootprint;
 
-        tvMonRequestsValue.setText("12");
-        tvMonCarbonValue.setText("15");
+        // LanguageManager 상태에 따라 단위 텍스트 결정
+        boolean isKo = LanguageManager.getInstance().getLanguage() == LanguageManager.Language.KO;
+        String unitCar = isKo ? "운전" : "Driving";
+        String unitLight = isKo ? "전구" : "Light";
+        String unitCharge = isKo ? "충전" : "Charges";
 
-        // 간단하게 width 조정 (애니메이션 없이)
-        // 복잡한 ViewTreeObserver 로직 대신 post 사용
-        barMonRequests.post(() -> {
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) barMonRequests.getLayoutParams();
-            lp.width = 100; // 임의 값
-            barMonRequests.setLayoutParams(lp);
-        });
+        String carText = String.format("%.1fm %s", carbon * 6.0, unitCar);
+        String lightText = String.format("%.1fh %s", carbon * 0.1, unitLight);
+        String phoneText = String.format("%.1f %s", carbon * 0.2, unitCharge);
+
+        tvEnvCarValue.setText(carText);
+        tvEnvLightValue.setText(lightText);
+        tvEnvPhoneValue.setText(phoneText);
+    }
+
+    // ★ 핵심 수정: LanguageManager를 사용하여 텍스트 설정
+    private void updateStrings() {
+        LanguageManager lm = LanguageManager.getInstance();
+        boolean isKo = lm.getLanguage() == LanguageManager.Language.KO;
+
+        // 1. 타이틀 & 요약 카드 라벨 (LanguageManager 키 사용)
+        // (LanguageManager에 "Detailed Usage" 키가 없으므로 main.viewUsage를 재활용하거나 수동 처리)
+        tvTitle.setText(isKo ? "상세 사용량" : "Detailed Usage");
+
+        tvLabelRequests.setText(lm.t("main.requests"));
+        tvLabelTime.setText(lm.t("main.time"));
+        tvLabelTokens.setText(lm.t("main.tokens"));
+        tvLabelCarbon.setText(lm.t("main.carbonFootprint"));
+
+        // 2. 섹션 타이틀
+        tvWeeklyTitle.setText(isKo ? "주간 트렌드" : "Weekly Trend");
+        tvTipsTitle.setText(lm.t("prompting.title")); // "Prompting Tips" / "프롬프팅 팁"
+
+        // 3. 팁 내용 (LanguageManager에 있는 실제 팁 키와 매핑)
+        // Tip 1: Be Specific (구체적으로 말하기)
+        tvTip1Title.setText(lm.t("prompting.beSpecific.title"));
+        tvTip1Desc.setText(lm.t("prompting.beSpecific.description"));
+
+        // Tip 2: Batch Requests (일괄 요청하기)
+        tvTip2Title.setText(lm.t("prompting.batchRequests.title"));
+        tvTip2Desc.setText(lm.t("prompting.batchRequests.description"));
+
+        // Tip 3: Remove Greetings (인사말 생략하기) - "Check Daily" 대신 사용
+        tvTip3Title.setText(lm.t("prompting.removeGreetings.title"));
+        tvTip3Desc.setText(lm.t("prompting.removeGreetings.description"));
+
+        // 4. 환경 영향 섹션
+        tvEnvTitle.setText(isKo ? "환경적 영향" : "Environmental Impact");
+        tvEnvDescription.setText(isKo ? "다음과 맞먹는 배출량입니다:" : "Equivalent to...");
+
+        // 값 뒤에 붙는 단위(운전/Driving 등)도 언어에 맞춰 갱신
+        updateEnvImpactValues();
     }
 }

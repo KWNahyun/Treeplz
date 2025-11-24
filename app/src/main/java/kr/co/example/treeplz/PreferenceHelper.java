@@ -25,12 +25,48 @@ public class PreferenceHelper {
         return instance;
     }
 
+    // --- [추가됨] 회원가입 & 로그인 관련 메서드 ---
+
+    // 1. 회원가입 (정보 저장)
+    public void registerUser(String email, String password) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("user_email", email);
+        editor.putString("user_password", password);
+        editor.apply();
+    }
+
+    // 2. 로그인 검증 (저장된 정보와 일치하는지 확인)
+    public boolean validateUser(String email, String password) {
+        String savedEmail = prefs.getString("user_email", "");
+        String savedPassword = prefs.getString("user_password", "");
+
+        // 저장된 정보가 없으면 false
+        if (savedEmail.isEmpty()) return false;
+
+        return savedEmail.equals(email) && savedPassword.equals(password);
+    }
+
+    // 3. 가입된 계정이 있는지 확인
+    public boolean hasRegisteredUser() {
+        return !prefs.getString("user_email", "").isEmpty();
+    }
+
+    // -------------------------------------------
+
     public void setApiKey(String key) {
         prefs.edit().putString("openai_api_key", key).apply();
     }
 
     public String getApiKey() {
         return prefs.getString("openai_api_key", null);
+    }
+
+    public void setLoggedIn(boolean isLoggedIn) {
+        prefs.edit().putBoolean("is_logged_in", isLoggedIn).apply();
+    }
+
+    public boolean isLoggedIn() {
+        return prefs.getBoolean("is_logged_in", false);
     }
 
     public void addUsage(long tokens, long timeMs) {
@@ -42,7 +78,6 @@ public class PreferenceHelper {
         editor.apply();
     }
 
-    // [추가됨] 오늘 사용량 강제 초기화 (나무 회복용)
     public void clearTodayData() {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong("today_tokens", 0);

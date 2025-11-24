@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private AiUsage latestUsageFromApi;
 
     private ConstraintLayout root;
-    private TextView tvBrand, tvTodayUsageBadge, btnLogin;
+    private TextView tvBrand, tvTodayUsageBadge, btnLogin; // btnLogin ID는 그대로 두고 텍스트만 Logout으로 바꿉니다
     private ToggleButton switchLanguage;
     private ImageButton btnCalendar, btnSettings;
 
@@ -106,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
         boolean isKo = LanguageManager.getInstance().getLanguage() == LanguageManager.Language.KO;
         switchLanguage.setChecked(isKo);
+
+        // [변경] 초기 텍스트를 Logout으로 설정
+        btnLogin.setText("Logout");
     }
 
     private void setupListeners() {
@@ -150,27 +153,32 @@ public class MainActivity extends AppCompatActivity {
 
         btnSettings.setOnClickListener(v -> showApiKeyDialog());
 
-        btnLogin.setOnClickListener(v ->
-                Toast.makeText(this, "Login feature coming soon!", Toast.LENGTH_SHORT).show()
-        );
+        // [변경] 로그인 버튼 -> 로그아웃 기능으로 변경
+        btnLogin.setOnClickListener(v -> {
+            // 1. 로그인 상태 해제
+            preferenceHelper.setLoggedIn(false);
 
-        // [기존] 클릭 시 사용량 증가 (나무 시듦)
+            // 2. 로그인 화면으로 이동
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            // 중요: 뒤로가기 눌렀을 때 다시 메인으로 못 오게 스택 비우기
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish(); // 현재 액티비티 종료
+
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+        });
+
         imgTreeState.setOnClickListener(v -> {
             preferenceHelper.addUsage(500, 1500);
             refreshDashboard();
             Toast.makeText(this, "+500 Tokens (Demo)", Toast.LENGTH_SHORT).show();
         });
 
-        // [추가됨] 롱클릭 시 초기화 (나무 회복)
         imgTreeState.setOnLongClickListener(v -> {
-            // 1. 저장된 데이터 0으로 초기화
             preferenceHelper.clearTodayData();
-
-            // 2. 화면 갱신
             refreshDashboard();
-
             Toast.makeText(this, "Tree Health Restored! 🌿", Toast.LENGTH_SHORT).show();
-            return true; // 이벤트를 여기서 끝냄 (일반 클릭 실행 안 함)
+            return true;
         });
     }
 
@@ -236,6 +244,10 @@ public class MainActivity extends AppCompatActivity {
         tvLabelTokens.setText(LanguageManager.getInstance().t("main.tokens"));
         btnLearnPrompting.setText(LanguageManager.getInstance().t("main.learnPrompting"));
         btnViewUsage.setText(LanguageManager.getInstance().t("main.viewUsage"));
+
+        // [변경] 언어가 바뀌어도 버튼 텍스트는 Logout으로 유지 (혹은 다국어 지원 시 t("main.logout") 사용)
+        btnLogin.setText("Logout");
+
         updateAiUsageUI();
     }
 
