@@ -114,4 +114,17 @@ public class PreferenceHelper {
             editor.apply();
         }
     }
+
+    public void setTodayRequests(int value) {
+        prefs.edit().putInt("today_requests", value).apply();
+    }
+
+    public void setTodayTokens(long value) {
+        prefs.edit().putLong("today_tokens", value).apply();
+    }
+
+    public void setTodayTime(long value) {
+        prefs.edit().putLong("today_time", value).apply();
+    }
+
 }

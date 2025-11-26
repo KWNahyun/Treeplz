@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import kr.co.example.treeplz.model.AiUsage;
 
 public class UsageDetailsActivity extends AppCompatActivity {
-
+    private PreferenceHelper preferenceHelper;
     public static final String EXTRA_AI_USAGE = "extra_data";
 
     public static void start(Context context, AiUsage usage) {
@@ -23,6 +23,10 @@ public class UsageDetailsActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    private int requests;
+    private long tokens;
+    private long timeSpentMs;
+    private double carbon;
     private TextView tvTitle;
     private ToggleButton switchLanguage;
 
@@ -46,15 +50,29 @@ public class UsageDetailsActivity extends AppCompatActivity {
     private AiUsage aiUsage;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        // ★ 화면 복귀 시도 항상 최신값으로 갱신
+        loadTodayUsage();
+        bindDataToViews();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_usage);
+
+        preferenceHelper = PreferenceHelper.getInstance(this);
 
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
         initViews();
         setupLanguageToggle();
+
+        loadTodayUsage();
+        bindDataToViews();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             aiUsage = getIntent().getSerializableExtra(EXTRA_AI_USAGE, AiUsage.class);
@@ -72,6 +90,13 @@ public class UsageDetailsActivity extends AppCompatActivity {
 
         // 초기 텍스트 로드 (LanguageManager 사용)
         updateStrings();
+    }
+
+    private void loadTodayUsage() {
+        requests = preferenceHelper.getTodayRequests();
+        tokens = preferenceHelper.getTodayTokens();
+        timeSpentMs = preferenceHelper.getTodayTime();
+        carbon = tokens * 0.0002;
     }
 
     private void initViews() {
@@ -119,33 +144,33 @@ public class UsageDetailsActivity extends AppCompatActivity {
     }
 
     private void bindDataToViews() {
-        tvValueRequests.setText(String.valueOf(aiUsage.requests));
-        int minutes = (int) Math.round(aiUsage.timeSpent);
-        tvValueTimeSpent.setText(minutes + "min");
-        tvValueTokens.setText(String.format("%.1fk", aiUsage.tokens / 1000.0));
-        tvValueCarbon.setText(String.format("%.1fg", aiUsage.carbonFootprint));
+        // PreferenceHelper에서 업데이트된 값 사용
+        tvValueRequests.setText(String.valueOf(requests));
 
-        // 환경 영향 수치 갱신 (단위 텍스트는 updateStrings에서 처리)
+        long minutes = timeSpentMs / 1000 / 60;
+        tvValueTimeSpent.setText(minutes + "min");
+
+        tvValueTokens.setText(String.format("%.1fk", tokens / 1000.0));
+        tvValueCarbon.setText(String.format("%.1fg", carbon));
+
         updateEnvImpactValues();
     }
 
-    private void updateEnvImpactValues() {
-        double carbon = aiUsage.carbonFootprint;
 
-        // LanguageManager 상태에 따라 단위 텍스트 결정
+    private void updateEnvImpactValues() {
+        // aiUsage.carbonFootprint → carbon 사용
+        double c = carbon;
+
         boolean isKo = LanguageManager.getInstance().getLanguage() == LanguageManager.Language.KO;
         String unitCar = isKo ? "운전" : "Driving";
         String unitLight = isKo ? "전구" : "Light";
         String unitCharge = isKo ? "충전" : "Charges";
 
-        String carText = String.format("%.1fm %s", carbon * 6.0, unitCar);
-        String lightText = String.format("%.1fh %s", carbon * 0.1, unitLight);
-        String phoneText = String.format("%.1f %s", carbon * 0.2, unitCharge);
-
-        tvEnvCarValue.setText(carText);
-        tvEnvLightValue.setText(lightText);
-        tvEnvPhoneValue.setText(phoneText);
+        tvEnvCarValue.setText(String.format("%.1fm %s", c * 6.0, unitCar));
+        tvEnvLightValue.setText(String.format("%.1fh %s", c * 0.1, unitLight));
+        tvEnvPhoneValue.setText(String.format("%.1f %s", c * 0.2, unitCharge));
     }
+
 
     // ★ 핵심 수정: LanguageManager를 사용하여 텍스트 설정
     private void updateStrings() {

@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         refreshDashboard();
+        fetchUsageFromServer();
     }
 
     private void initViews() {
@@ -127,18 +128,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnViewUsage.setOnClickListener(v -> {
-            int curRequests = preferenceHelper.getTodayRequests();
-            long curTokens = preferenceHelper.getTodayTokens();
-            long curTimeMs = preferenceHelper.getTodayTime();
-            double curCarbon = curTokens * 0.0002;
-
-            AiUsage usageToSend = new AiUsage(
-                    curRequests,
-                    (int) curTokens,
-                    (double) curTimeMs / 60000.0,
-                    curCarbon
-            );
-            UsageDetailsActivity.start(MainActivity.this, usageToSend);
+            Intent intent = new Intent(MainActivity.this, UsageDetailsActivity.class);
+            startActivity(intent);
         });
 
         btnChatDemo.setOnClickListener(v -> {
@@ -208,6 +199,11 @@ public class MainActivity extends AppCompatActivity {
                     timeSpentMs = (long) (latestUsageFromApi.timeSpent * 60 * 1000);
                     carbonFootprint = latestUsageFromApi.carbonFootprint;
                     updateAiUsageUI();
+
+                    preferenceHelper.setTodayRequests(latestUsageFromApi.requests);
+                    preferenceHelper.setTodayTokens(latestUsageFromApi.tokens);
+                    preferenceHelper.setTodayTime((long)(latestUsageFromApi.timeSpent * 60 * 1000));
+
                 }
             }
 
